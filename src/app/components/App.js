@@ -1,7 +1,8 @@
-import React from "react";
+"use client";
+
 import styled from "styled-components";
-import LeftPanel from "./LeftPanel";
 import Canvas from "./Canvas";
+import LeftPanel from "./LeftPanel";
 import RightPanel from "./RightPanel";
 
 const AppWrapper = styled.div`
