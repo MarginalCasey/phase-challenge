@@ -1,14 +1,25 @@
+import type { Container } from "pixi.js";
 import type { FC } from "react";
-import type { IElement as ElementProps } from "../../types";
+import type { IElement } from "../../types";
 import { ElementType } from "../../types";
+import Frame from "./Frame";
 import Rectangle from "./Rectangle";
 
-const Element: FC<ElementProps> = (props) => {
-  if (props.type === ElementType.Rectangle) {
-    return <Rectangle {...props} />;
-  }
+type ElementProps = IElement & {
+  parent?: Container;
+};
 
-  return null;
+const Element: FC<ElementProps> = (props) => {
+  switch (props.type) {
+    case ElementType.Frame:
+      return <Frame {...props} />;
+
+    case ElementType.Rectangle:
+      return <Rectangle {...props} />;
+
+    default:
+      return null;
+  }
 };
 
 export default Element;

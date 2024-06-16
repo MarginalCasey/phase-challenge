@@ -1,12 +1,13 @@
 import { produce } from "immer";
 import type { Container } from "pixi.js";
 import { create } from "zustand";
-import { ElementType, IElement } from "../types";
+import { ElementId, ElementType, IElement } from "../types";
 
 interface PageState {
   stage: Container | null;
   setStage: (stage: Container) => void;
   page: IElement[];
+  activeElement: ElementId[] | null;
 }
 
 const usePageStore = create<PageState>((set) => ({
@@ -19,20 +20,34 @@ const usePageStore = create<PageState>((set) => ({
     ),
   page: [
     {
-      type: ElementType.Rectangle,
-      id: "1",
-      x: 50,
-      y: 50,
-      width: 100,
-      height: 100,
+      type: ElementType.Frame,
+      id: "0",
+      name: "Frame 1",
+      x: 200,
+      y: 200,
+      width: 300,
+      height: 200,
       alpha: 1,
-      fill: {
-        color: "0xde3249",
-      },
+      children: [
+        {
+          type: ElementType.Rectangle,
+          id: "1",
+          name: "Rectangle 1",
+          x: 50,
+          y: 50,
+          width: 100,
+          height: 100,
+          alpha: 1,
+          fill: {
+            color: "0xde3249",
+          },
+        },
+      ],
     },
     {
       type: ElementType.Rectangle,
       id: "2",
+      name: "Rectangle 2",
       x: 200,
       y: 50,
       width: 100,
@@ -47,6 +62,7 @@ const usePageStore = create<PageState>((set) => ({
       },
     },
   ],
+  activeElement: null,
 }));
 
 export default usePageStore;

@@ -1,10 +1,15 @@
-import { Graphics } from "pixi.js";
+import { Container, Graphics } from "pixi.js";
 import type { FC } from "react";
 import { useEffect } from "react";
 import usePageStore from "../../hooks/usePageStore";
-import type { IRectangle as RectangleProps } from "../../types";
+import type { IRectangle } from "../../types";
 
-const Rectangle: FC<RectangleProps> = ({
+type FrameProps = IRectangle & {
+  parent?: Container;
+};
+
+const Rectangle: FC<FrameProps> = ({
+  parent,
   x,
   y,
   width,
@@ -14,9 +19,10 @@ const Rectangle: FC<RectangleProps> = ({
   stroke,
 }) => {
   const stage = usePageStore((state) => state.stage);
+  const parentContainer = parent ?? stage;
 
   useEffect(() => {
-    if (stage) {
+    if (parentContainer) {
       const graphics = new Graphics();
       graphics.rect(x, y, width, height);
       if (fill) {
@@ -27,9 +33,9 @@ const Rectangle: FC<RectangleProps> = ({
       }
       graphics.alpha = alpha;
 
-      stage.addChild(graphics);
+      parentContainer.addChild(graphics);
     }
-  }, [stage]);
+  }, [parentContainer]);
 
   return null;
 };
