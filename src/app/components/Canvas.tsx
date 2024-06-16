@@ -1,6 +1,8 @@
 import { Application } from "pixi.js";
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
+import usePageStore from "../hooks/usePageStore";
+import Element from "./Element";
 
 const CanvasWrapper = styled.div`
   position: relative;
@@ -10,6 +12,8 @@ const CanvasWrapper = styled.div`
 
 const Canvas = () => {
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const setStage = usePageStore((state) => state.setStage);
+  const page = usePageStore((state) => state.page);
 
   useEffect(() => {
     const app = new Application();
@@ -20,6 +24,7 @@ const Canvas = () => {
         backgroundColor: "#f2f2f2",
       });
       wrapper.appendChild(app.canvas);
+      setStage(app.stage);
     }
 
     if (wrapperRef.current) {
@@ -32,7 +37,13 @@ const Canvas = () => {
     }
   }, []);
 
-  return <CanvasWrapper ref={wrapperRef}></CanvasWrapper>;
+  return (
+    <CanvasWrapper ref={wrapperRef}>
+      {page.map((element) => (
+        <Element key={element.id} {...element} />
+      ))}
+    </CanvasWrapper>
+  );
 };
 
 export default Canvas;
