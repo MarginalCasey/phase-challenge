@@ -1,19 +1,18 @@
-import type { Container } from "pixi.js";
 import type { FC } from "react";
 import type { IElement } from "../../types";
 import { ElementType } from "../../types";
 import Frame from "./Frame";
 import Rectangle from "./Rectangle";
+import Text from "./Text";
+import type { ElementProps } from "./types";
 
-export type ElementProps = IElement & {
-  parent?: Container;
-  path: string;
-};
-
-const Element: FC<ElementProps> = (props) => {
+const Element: FC<IElement & ElementProps> = (props) => {
   switch (props.type) {
     case ElementType.Frame:
       return <Frame {...props} />;
+
+    case ElementType.Text:
+      return <Text {...props} />;
 
     case ElementType.Rectangle:
       return <Rectangle {...props} />;

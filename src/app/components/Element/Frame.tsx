@@ -1,13 +1,14 @@
-import { Container, Graphics, Text } from "pixi.js";
+import { Container, Graphics } from "pixi.js";
 import type { FC } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import Element from ".";
 import usePageStore from "../../hooks/usePageStore";
 import type { IFrame } from "../../types";
 import ElementWrapper from "../ElementWrapper";
-import type { ElementProps } from "./index";
+import Text from "./Text";
+import type { ElementProps } from "./types";
 
-type FrameProps = IFrame & ElementProps;
+type FrameProps = Omit<IFrame, "type"> & ElementProps;
 
 const Frame: FC<FrameProps> = ({
   parent,
@@ -28,6 +29,7 @@ const Frame: FC<FrameProps> = ({
   const parentContainer = parent ?? stage;
 
   const [frame, setFrame] = useState<Container | null>(null);
+  const frameNameId = useId();
 
   useEffect(() => {
     if (parentContainer) {
@@ -37,15 +39,6 @@ const Frame: FC<FrameProps> = ({
         width,
         height,
         alpha,
-      });
-
-      const text = new Text({
-        text: name,
-        x: 0,
-        y: -20,
-        style: {
-          fontSize: 12,
-        },
       });
 
       const graphics = new Graphics();
@@ -61,7 +54,6 @@ const Frame: FC<FrameProps> = ({
       }
       graphics.alpha = 1;
 
-      container.addChild(text);
       container.addChild(graphics);
       parentContainer.addChild(container);
       setFrame(container);
@@ -79,6 +71,19 @@ const Frame: FC<FrameProps> = ({
         stroke={stroke}
         visible={activeElementPath === path}
       >
+        <Text
+          id={frameNameId}
+          name="frame title"
+          parent={frame}
+          path={path}
+          text={name}
+          x={0}
+          y={-20}
+          alpha={1}
+          style={{
+            fontSize: 12,
+          }}
+        />
         {children.map((child) => {
           return (
             <Element

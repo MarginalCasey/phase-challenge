@@ -1,18 +1,7 @@
-export type ElementId = string;
-
 export enum ElementType {
   Frame = "frame",
+  Text = "text",
   Rectangle = "rectangle",
-}
-
-interface IElementCommonProps {
-  id: ElementId;
-  name: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  alpha: number;
 }
 
 interface Ifill {
@@ -34,7 +23,30 @@ export interface IStroke {
   alignment?: StrokeAlignment;
 }
 
-export interface IRectangle extends IElementCommonProps {
+interface IElementCommonProps {
+  id: string;
+  name: string;
+  x: number;
+  y: number;
+  alpha: number;
+}
+
+interface IBlockElementCommonProps extends IElementCommonProps {
+  width: number;
+  height: number;
+}
+
+interface ITextStyle {
+  fontSize: number;
+}
+
+export interface IText extends IElementCommonProps {
+  type: ElementType.Text;
+  text: string;
+  style: ITextStyle;
+}
+
+export interface IRectangle extends IBlockElementCommonProps {
   type: ElementType.Rectangle;
   fill?: Ifill;
   stroke?: IStroke;
@@ -42,11 +54,11 @@ export interface IRectangle extends IElementCommonProps {
 
 export type IGraphic = IRectangle;
 
-export interface IFrame extends IElementCommonProps {
+export interface IFrame extends IBlockElementCommonProps {
   type: ElementType.Frame;
   fill?: Ifill;
   stroke?: IStroke;
   children: IElement[];
 }
 
-export type IElement = IFrame | IGraphic;
+export type IElement = IFrame | IText | IGraphic;

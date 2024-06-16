@@ -5,11 +5,11 @@ import usePageStore from "../../hooks/usePageStore";
 import type { IRectangle } from "../../types";
 import { StrokeAlignment } from "../../types";
 import ElementWrapper from "../ElementWrapper";
-import type { ElementProps } from "./index";
+import type { ElementProps } from "./types";
 
-type FrameProps = IRectangle & ElementProps;
+type RectangleProps = Omit<IRectangle, "type"> & ElementProps;
 
-const Rectangle: FC<FrameProps> = ({
+const Rectangle: FC<RectangleProps> = ({
   parent,
   path,
   x,
