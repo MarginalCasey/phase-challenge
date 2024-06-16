@@ -10,6 +10,16 @@ import type { ElementProps } from "./types";
 
 type FrameProps = Omit<IFrame, "type"> & ElementProps;
 
+const normalNameStyle = {
+  fontSize: 12,
+  fill: "black",
+};
+
+const activeNameStyle = {
+  fontSize: 12,
+  fill: "#0d99ff",
+};
+
 const Frame: FC<FrameProps> = ({
   parent,
   path,
@@ -25,6 +35,7 @@ const Frame: FC<FrameProps> = ({
 }) => {
   const stage = usePageStore((state) => state.stage);
   const activeElementPath = usePageStore((state) => state.activeElementPath);
+  const isActive = activeElementPath === path;
 
   const parentContainer = parent ?? stage;
 
@@ -69,7 +80,7 @@ const Frame: FC<FrameProps> = ({
         width={width}
         height={height}
         stroke={stroke}
-        visible={activeElementPath === path}
+        visible={isActive}
       >
         <Text
           id={frameNameId}
@@ -80,9 +91,7 @@ const Frame: FC<FrameProps> = ({
           x={0}
           y={-20}
           alpha={1}
-          style={{
-            fontSize: 12,
-          }}
+          style={isActive ? activeNameStyle : normalNameStyle}
         />
         {children.map((child) => {
           return (
