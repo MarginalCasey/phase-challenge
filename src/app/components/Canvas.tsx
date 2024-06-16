@@ -40,7 +40,7 @@ const Canvas = () => {
   return (
     <CanvasWrapper ref={wrapperRef}>
       {page.map((element) => (
-        <Element key={element.id} {...element} />
+        <Element key={element.id} path={`/${element.id}`} {...element} />
       ))}
     </CanvasWrapper>
   );

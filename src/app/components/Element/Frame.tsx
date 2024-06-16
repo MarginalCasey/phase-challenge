@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import Element from ".";
 import usePageStore from "../../hooks/usePageStore";
 import type { IFrame } from "../../types";
+import ElementWrapper from "../ElementWrapper";
+import type { ElementProps } from "./index";
 
-type FrameProps = IFrame & {
-  parent?: Container;
-};
+type FrameProps = IFrame & ElementProps;
 
 const Frame: FC<FrameProps> = ({
   parent,
+  path,
   name,
   x,
   y,
@@ -22,6 +23,8 @@ const Frame: FC<FrameProps> = ({
   children,
 }) => {
   const stage = usePageStore((state) => state.stage);
+  const activeElementPath = usePageStore((state) => state.activeElementPath);
+
   const parentContainer = parent ?? stage;
 
   const [frame, setFrame] = useState<Container | null>(null);
@@ -66,9 +69,28 @@ const Frame: FC<FrameProps> = ({
   }, [parentContainer]);
 
   if (frame) {
-    return children.map((child) => {
-      return <Element key={child.id} parent={frame} {...child} />;
-    });
+    return (
+      <ElementWrapper
+        parent={parentContainer}
+        x={x}
+        y={y}
+        width={width}
+        height={height}
+        stroke={stroke}
+        visible={activeElementPath === path}
+      >
+        {children.map((child) => {
+          return (
+            <Element
+              key={child.id}
+              parent={frame}
+              path={`${path}/${child.id}`}
+              {...child}
+            />
+          );
+        })}
+      </ElementWrapper>
+    );
   }
 
   return null;

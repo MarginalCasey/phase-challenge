@@ -5,8 +5,9 @@ import { ElementType } from "../../types";
 import Frame from "./Frame";
 import Rectangle from "./Rectangle";
 
-type ElementProps = IElement & {
+export type ElementProps = IElement & {
   parent?: Container;
+  path: string;
 };
 
 const Element: FC<ElementProps> = (props) => {
