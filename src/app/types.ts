@@ -20,10 +20,18 @@ interface Ifill {
   alpha?: number;
 }
 
-interface IStroke {
+export enum StrokeAlignment {
+  Default = 1,
+  Inner = 1,
+  Center = 0.5,
+  Outer = 0,
+}
+
+export interface IStroke {
   width?: number;
   color?: string;
   alpha?: number;
+  alignment?: StrokeAlignment;
 }
 
 export interface IRectangle extends IElementCommonProps {
