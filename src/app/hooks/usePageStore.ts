@@ -1,13 +1,14 @@
 import { produce } from "immer";
 import type { Container } from "pixi.js";
 import { create } from "zustand";
-import { ElementId, ElementType, IElement } from "../types";
+import { ElementType, IElement } from "../types";
 
 interface PageState {
   stage: Container | null;
   setStage: (stage: Container) => void;
   page: IElement[];
-  activeElement: ElementId[] | null;
+  activeElementPath: string | null;
+  setActiveElementPath: (path: string) => void;
 }
 
 const usePageStore = create<PageState>((set) => ({
@@ -62,7 +63,14 @@ const usePageStore = create<PageState>((set) => ({
       },
     },
   ],
-  activeElement: null,
+  activeElementPath: null,
+  setActiveElementPath: (path) => {
+    set(
+      produce((state) => {
+        state.activeElementPath = path;
+      }),
+    );
+  },
 }));
 
 export default usePageStore;
