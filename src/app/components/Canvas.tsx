@@ -22,6 +22,7 @@ const Canvas = () => {
       await app.init({
         resizeTo: wrapper,
         backgroundColor: "#f2f2f2",
+        eventMode: "static",
       });
       wrapper.appendChild(app.canvas);
       setStage(app.stage);

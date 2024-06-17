@@ -2,13 +2,15 @@ import { Text as PixiText } from "pixi.js";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
 import usePageStore from "../../hooks/usePageStore";
+import useSelectableContainer from "../../hooks/useSelectableContainer";
 import type { IText } from "../../types";
 import type { ElementProps } from "./types";
 
 type TextProps = Omit<IText, "type"> & ElementProps;
 
-const Text: FC<TextProps> = ({ parent, x, y, alpha, text, style }) => {
+const Text: FC<TextProps> = ({ parent, path, x, y, alpha, text, style }) => {
   const [textObj, setTextObj] = useState<PixiText | null>(null);
+  useSelectableContainer(textObj, path);
 
   const stage = usePageStore((state) => state.stage);
   const parentContainer = parent ?? stage;

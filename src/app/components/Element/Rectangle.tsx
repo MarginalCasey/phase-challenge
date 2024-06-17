@@ -1,7 +1,9 @@
+import type { Container } from "pixi.js";
 import { Graphics } from "pixi.js";
 import type { FC } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import usePageStore from "../../hooks/usePageStore";
+import useSelectableContainer from "../../hooks/useSelectableContainer";
 import type { IRectangle } from "../../types";
 import { StrokeAlignment } from "../../types";
 import ElementWrapper from "../ElementWrapper";
@@ -25,6 +27,9 @@ const Rectangle: FC<RectangleProps> = ({
 
   const parentContainer = parent ?? stage;
 
+  const [graphics, setGraphics] = useState<Container | null>(null);
+  useSelectableContainer(graphics, path);
+
   useEffect(() => {
     if (parentContainer) {
       const graphics = new Graphics();
@@ -41,6 +46,7 @@ const Rectangle: FC<RectangleProps> = ({
       graphics.alpha = alpha;
 
       parentContainer.addChild(graphics);
+      setGraphics(graphics);
 
       return () => {
         parentContainer.removeChild(graphics);
