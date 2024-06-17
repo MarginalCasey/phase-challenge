@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import usePageStore from "../../hooks/usePageStore";
 import useSelectableContainer from "../../hooks/useSelectableContainer";
 import type { IText } from "../../types";
+import ElementWrapper from "../ElementWrapper";
 import type { ElementProps } from "./types";
 
 type TextProps = Omit<IText, "type"> & ElementProps;
@@ -13,6 +14,8 @@ const Text: FC<TextProps> = ({ parent, path, x, y, alpha, text, style }) => {
   useSelectableContainer(textObj, path);
 
   const stage = usePageStore((state) => state.stage);
+  const activeElementPath = usePageStore((state) => state.activeElementPath);
+
   const parentContainer = parent ?? stage;
 
   useEffect(() => {
@@ -39,6 +42,19 @@ const Text: FC<TextProps> = ({ parent, path, x, y, alpha, text, style }) => {
       textObj.style = style;
     }
   }, [textObj, style]);
+
+  if (textObj) {
+    return (
+      <ElementWrapper
+        parent={parentContainer}
+        x={x}
+        y={y}
+        width={textObj.width}
+        height={textObj.height}
+        visible={activeElementPath === path}
+      />
+    );
+  }
 
   return null;
 };

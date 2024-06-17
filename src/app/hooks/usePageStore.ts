@@ -43,6 +43,18 @@ const usePageStore = create<PageState>((set) => ({
             color: "0xde3249",
           },
         },
+        {
+          type: ElementType.Text,
+          id: "4",
+          name: "Text 1",
+          x: 5,
+          y: 5,
+          alpha: 1,
+          text: "Text 1",
+          style: {
+            fontSize: 24,
+          },
+        },
       ],
     },
     {
