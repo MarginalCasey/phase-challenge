@@ -1,15 +1,16 @@
-import type { Container } from "pixi.js";
 import { Graphics } from "pixi.js";
-import type { FC } from "react";
-import { useEffect, useState } from "react";
+import type { Dispatch, FC, SetStateAction } from "react";
+import { useEffect } from "react";
 import usePageStore from "../../hooks/usePageStore";
-import useSelectableContainer from "../../hooks/useSelectableContainer";
 import type { IRectangle } from "../../types";
 import { StrokeAlignment } from "../../types";
 import ElementWrapper from "../ElementWrapper";
 import type { ElementProps } from "./types";
 
-type RectangleProps = Omit<IRectangle, "type"> & ElementProps;
+interface RectangleProps extends Omit<IRectangle, "type">, ElementProps {
+  container: Graphics | null;
+  setContainer: Dispatch<SetStateAction<Graphics | null>>;
+}
 
 const Rectangle: FC<RectangleProps> = ({
   parent,
@@ -21,14 +22,12 @@ const Rectangle: FC<RectangleProps> = ({
   alpha,
   fill,
   stroke,
+  setContainer,
 }) => {
   const stage = usePageStore((state) => state.stage);
   const activeElementPath = usePageStore((state) => state.activeElementPath);
 
   const parentContainer = parent ?? stage;
-
-  const [graphics, setGraphics] = useState<Container | null>(null);
-  useSelectableContainer(graphics, path);
 
   useEffect(() => {
     if (parentContainer) {
@@ -46,7 +45,7 @@ const Rectangle: FC<RectangleProps> = ({
       graphics.alpha = alpha;
 
       parentContainer.addChild(graphics);
-      setGraphics(graphics);
+      setContainer(graphics);
 
       return () => {
         parentContainer.removeChild(graphics);

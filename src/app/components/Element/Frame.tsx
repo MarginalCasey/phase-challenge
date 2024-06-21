@@ -1,14 +1,17 @@
 import { Container, Graphics } from "pixi.js";
-import type { FC } from "react";
+import type { Dispatch, FC, SetStateAction } from "react";
 import { useEffect, useId, useState } from "react";
 import Element from ".";
 import usePageStore from "../../hooks/usePageStore";
 import type { IFrame } from "../../types";
+import { ElementType } from "../../types";
 import ElementWrapper from "../ElementWrapper";
-import Text from "./Text";
 import type { ElementProps } from "./types";
 
-type FrameProps = Omit<IFrame, "type"> & ElementProps;
+interface FrameProps extends Omit<IFrame, "type">, ElementProps {
+  container: Container | null;
+  setContainer: Dispatch<SetStateAction<Container | null>>;
+}
 
 const normalNameStyle = {
   fontSize: 12,
@@ -82,11 +85,13 @@ const Frame: FC<FrameProps> = ({
         stroke={stroke}
         visible={isActive}
       >
-        <Text
+        <Element
+          type={ElementType.Text}
           id={frameNameId}
           name="frame title"
           parent={frame}
           path={path}
+          isHandle
           text={name}
           x={0}
           y={-20}

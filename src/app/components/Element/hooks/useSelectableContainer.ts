@@ -1,6 +1,6 @@
 import type { Container } from "pixi.js";
 import { useEffect } from "react";
-import usePageStore from "./usePageStore";
+import usePageStore from "../../../hooks/usePageStore";
 
 const useSelectableContainer = (container: Container | null, path: string) => {
   const setActiveElementPath = usePageStore(

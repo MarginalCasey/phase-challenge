@@ -1,18 +1,28 @@
 import { Text as PixiText } from "pixi.js";
-import type { FC } from "react";
-import { useEffect, useState } from "react";
+import type { Dispatch, FC, SetStateAction } from "react";
+import { useEffect } from "react";
 import usePageStore from "../../hooks/usePageStore";
-import useSelectableContainer from "../../hooks/useSelectableContainer";
 import type { IText } from "../../types";
 import ElementWrapper from "../ElementWrapper";
 import type { ElementProps } from "./types";
 
-type TextProps = Omit<IText, "type"> & ElementProps;
+interface TextProps extends Omit<IText, "type">, ElementProps {
+  container: PixiText | null;
+  setContainer: Dispatch<SetStateAction<PixiText | null>>;
+}
 
-const Text: FC<TextProps> = ({ parent, path, x, y, alpha, text, style }) => {
-  const [textObj, setTextObj] = useState<PixiText | null>(null);
-  useSelectableContainer(textObj, path);
-
+const Text: FC<TextProps> = ({
+  parent,
+  path,
+  isHandle,
+  x,
+  y,
+  alpha,
+  text,
+  style,
+  container,
+  setContainer,
+}) => {
   const stage = usePageStore((state) => state.stage);
   const activeElementPath = usePageStore((state) => state.activeElementPath);
 
@@ -28,7 +38,7 @@ const Text: FC<TextProps> = ({ parent, path, x, y, alpha, text, style }) => {
         style,
       });
 
-      setTextObj(textObj);
+      setContainer(textObj);
       parentContainer.addChild(textObj);
 
       return () => {
@@ -38,19 +48,19 @@ const Text: FC<TextProps> = ({ parent, path, x, y, alpha, text, style }) => {
   }, [parentContainer]);
 
   useEffect(() => {
-    if (textObj) {
-      textObj.style = style;
+    if (container) {
+      container.style = style;
     }
-  }, [textObj, style]);
+  }, [container, style]);
 
-  if (textObj) {
+  if (container && !isHandle) {
     return (
       <ElementWrapper
         parent={parentContainer}
         x={x}
         y={y}
-        width={textObj.width}
-        height={textObj.height}
+        width={container.width}
+        height={container.height}
         visible={activeElementPath === path}
       />
     );
