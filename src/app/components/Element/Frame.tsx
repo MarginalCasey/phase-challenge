@@ -67,7 +67,7 @@ const Frame: FC<FrameProps> = ({
           name="frame title"
           parent={container}
           path={path}
-          disableOutline
+          outline={false}
           text={name}
           x={0}
           y={-20}
@@ -80,7 +80,7 @@ const Frame: FC<FrameProps> = ({
           name="frame content"
           parent={container}
           path={path}
-          disableOutline
+          outline={false}
           x={0}
           y={0}
           width={width}

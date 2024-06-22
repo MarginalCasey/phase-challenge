@@ -17,7 +17,7 @@ const Element: FC<IElement & ElementProps> = (props) => {
   const stage = usePageStore((state) => state.stage);
   const activeElementPath = usePageStore((state) => state.activeElementPath);
 
-  const { x, y, parent, path, disableOutline } = props;
+  const { x, y, parent, path, outline = true } = props;
   const parentContainer = parent ?? stage;
   const isSelected = activeElementPath === path;
 
@@ -32,7 +32,7 @@ const Element: FC<IElement & ElementProps> = (props) => {
     x,
     y,
     stroke: ("stroke" in props && props.stroke) || undefined,
-    visible: !disableOutline && isSelected,
+    visible: outline && isSelected,
   });
 
   switch (props.type) {
