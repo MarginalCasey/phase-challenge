@@ -68,9 +68,14 @@ const Frame: FC<FrameProps> = ({
           parent={null}
           path={path}
           outline={false}
+          draggable
+          dragHandlePosition={{
+            x: 0,
+            y: -20,
+          }}
           text={name}
           x={x}
-          y={x - 20}
+          y={y - 20}
           alpha={1}
           style={isActive ? activeNameStyle : normalNameStyle}
         />
@@ -81,6 +86,7 @@ const Frame: FC<FrameProps> = ({
           parent={container}
           path={path}
           outline={false}
+          draggable={false}
           x={0}
           y={0}
           width={width}

@@ -25,6 +25,7 @@ const Canvas = () => {
         eventMode: "static",
       });
       wrapper.appendChild(app.canvas);
+      app.stage.hitArea = app.screen;
       setStage(app.stage);
     }
 

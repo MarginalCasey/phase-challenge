@@ -53,8 +53,10 @@ const useSelectionOutline = ({
   useEffect(() => {
     if (border) {
       border.visible = visible;
+      border.x = x;
+      border.y = y;
     }
-  }, [border, visible]);
+  }, [border, visible, x, y]);
 };
 
 export default useSelectionOutline;

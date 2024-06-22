@@ -9,6 +9,7 @@ interface PageState {
   page: IElement[];
   activeElementPath: string | null;
   setActiveElementPath: (path: string) => void;
+  setElement: (path: string, update: Partial<{ x: number; y: number }>) => void;
 }
 
 const usePageStore = create<PageState>((set) => ({
@@ -98,6 +99,34 @@ const usePageStore = create<PageState>((set) => ({
     set(
       produce((state) => {
         state.activeElementPath = path;
+      }),
+    );
+  },
+  setElement: (path: string, { x, y }: Partial<{ x: number; y: number }>) => {
+    const idArr = path.split("/");
+    idArr.shift();
+
+    set(
+      produce((state) => {
+        let list: IElement[] = state.page;
+        let element: IElement | null = null;
+
+        while (idArr.length > 0) {
+          const id = idArr.shift();
+
+          element = list.find((child) => child.id === id) ?? null;
+          if (element === null) break;
+          if ("children" in element) {
+            list = element.children;
+          } else {
+            list = [];
+          }
+        }
+
+        if (element) {
+          element.x = x ?? element.x;
+          element.y = y ?? element.y;
+        }
       }),
     );
   },
