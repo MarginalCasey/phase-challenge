@@ -9,6 +9,8 @@ interface PageState {
   page: IElement[];
   activeElementPath: string | null;
   setActiveElementPath: (path: string) => void;
+  activeElement: Container | null;
+  setActiveElement: (element: Container) => void;
   setElement: (path: string, update: Partial<{ x: number; y: number }>) => void;
 }
 
@@ -99,6 +101,14 @@ const usePageStore = create<PageState>((set) => ({
     set(
       produce((state) => {
         state.activeElementPath = path;
+      }),
+    );
+  },
+  activeElement: null,
+  setActiveElement: (element) => {
+    set(
+      produce((state) => {
+        state.activeElement = element;
       }),
     );
   },

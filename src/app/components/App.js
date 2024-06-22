@@ -8,7 +8,7 @@ import RightPanel from "./RightPanel";
 const AppWrapper = styled.div`
   display: grid;
   grid-auto-flow: column;
-  grid-template-columns: 200px auto 200px;
+  grid-template-columns: 240px auto 240px;
   background: #232323;
   height: 100vh;
   color: white;

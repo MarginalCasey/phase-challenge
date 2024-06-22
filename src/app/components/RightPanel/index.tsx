@@ -1,42 +1,78 @@
-import styled from "styled-components";
-import ColorPicker from "../ColorPicker";
+import usePageStore from "../../hooks/usePageStore";
+import InputNumber from "./components/InputNumber";
 import useActiveElement from "./hooks/useActiveElement";
-
-const RightPanelWrapper = styled.div`
-  padding: 8px;
-`;
-const Label = styled.label`
-  display: grid;
-  grid-template-columns: 16px auto minmax(0, 1fr);
-  grid-gap: 8px;
-`;
+import { Label, RightPanelWrapper, Section } from "./index.style";
 
 const RightPanel = () => {
   const element = useActiveElement();
+  const activeElementPath = usePageStore((state) => state.activeElementPath);
+  const renderedElement = usePageStore((state) => state.activeElement);
+  const setElement = usePageStore((state) => state.setElement);
+
+  const strokeWidth = (() => {
+    if (!element) return 0;
+    if ("stroke" in element) {
+      return element.stroke?.width ?? 1;
+    }
+    return 0;
+  })();
+  const width = (() => {
+    if (!renderedElement) return 0;
+    return renderedElement?.width - strokeWidth;
+  })();
+  const height = (() => {
+    if (!renderedElement) return 0;
+    return renderedElement?.height - strokeWidth;
+  })();
+
+  function handleInputChange(property: string) {
+    return (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (activeElementPath) {
+        const value = parseInt(event.target.value);
+
+        if (isNaN(value)) return;
+
+        setElement(activeElementPath, { [property]: value });
+      }
+    };
+  }
 
   return (
     <RightPanelWrapper>
-      {element && (
+      {element && renderedElement && (
         <>
-          <Label>
-            X <input type="number" min={0} max={999} value={element.x} />
-          </Label>
-          <Label>
-            Y <input type="number" min={0} max={999} value={element.y} />
-          </Label>
-          <Label>
-            O{" "}
-            <input
-              type="number"
-              min={0}
-              max={100}
-              value={element.alpha * 100}
-            />
-            <input type="range" min={0} max={100} value={element.alpha * 100} />
-          </Label>
-          <Label>
-            B <ColorPicker /> #00FF00
-          </Label>
+          <Section>
+            <Label>
+              <span>X</span>
+              <InputNumber
+                value={element.x}
+                onChange={handleInputChange("x")}
+              />
+            </Label>
+            <Label>
+              <span>Y</span>
+              <InputNumber
+                value={element.y}
+                onChange={handleInputChange("y")}
+              />
+            </Label>
+            <Label>
+              <span>W</span>
+              <InputNumber
+                value={"width" in element ? element.width : width}
+                onChange={handleInputChange("width")}
+                disabled={!("width" in element)}
+              />
+            </Label>
+            <Label>
+              <span>H</span>
+              <InputNumber
+                value={"height" in element ? element.height : height}
+                onChange={handleInputChange("height")}
+                disabled={!("height" in element)}
+              />
+            </Label>
+          </Section>
         </>
       )}
     </RightPanelWrapper>

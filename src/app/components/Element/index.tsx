@@ -17,6 +17,7 @@ const Element: FC<IElement & ElementProps> = (props) => {
 
   const stage = usePageStore((state) => state.stage);
   const activeElementPath = usePageStore((state) => state.activeElementPath);
+  const setActiveElement = usePageStore((state) => state.setActiveElement);
 
   const {
     x,
@@ -57,6 +58,12 @@ const Element: FC<IElement & ElementProps> = (props) => {
       container.position.set(x, y);
     }
   }, [container, x, y]);
+
+  useEffect(() => {
+    if (container && isSelected) {
+      setActiveElement(container);
+    }
+  }, [container, isSelected, setActiveElement]);
 
   switch (props.type) {
     case ElementType.Frame:
