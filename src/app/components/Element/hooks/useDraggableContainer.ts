@@ -11,12 +11,12 @@ interface UseDraggableContainerProps {
 }
 
 const useDraggableContainer = ({
-  parent,
   container,
   path,
   handlePosition,
   disabled,
 }: UseDraggableContainerProps) => {
+  const stage = usePageStore((state) => state.stage);
   const setElement = usePageStore((state) => state.setElement);
   const dragTargetRef = useRef<Container | null>(null);
   const offsetRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
@@ -39,7 +39,7 @@ const useDraggableContainer = ({
   );
 
   const onDragStart = useCallback(
-    (parent: Container, container: Container) => {
+    (container: Container) => {
       return (event: FederatedPointerEvent) => {
         const { x, y } = event.getLocalPosition(container);
 
@@ -47,44 +47,43 @@ const useDraggableContainer = ({
         dragTargetRef.current.alpha = 0.5;
         offsetRef.current = { x, y };
 
-        parent.on("pointermove", onDragMove);
-      };
-    },
-    [onDragMove],
-  );
-
-  const onDragEnd = useCallback(
-    (parent: Container) => {
-      return () => {
-        if (dragTargetRef.current) {
-          parent.off("pointermove", onDragMove);
-          dragTargetRef.current.alpha = 1;
-          dragTargetRef.current = null;
-          offsetRef.current = { x: 0, y: 0 };
+        if (stage) {
+          stage.on("pointermove", onDragMove);
         }
       };
     },
-    [onDragMove],
+    [stage, onDragMove],
   );
 
+  const onDragEnd = useCallback(() => {
+    if (dragTargetRef.current) {
+      if (stage) {
+        stage.off("pointermove", onDragMove);
+      }
+
+      dragTargetRef.current.alpha = 1;
+      dragTargetRef.current = null;
+      offsetRef.current = { x: 0, y: 0 };
+    }
+  }, [stage, onDragMove]);
+
   useEffect(() => {
-    if (parent && container && !disabled) {
-      parent.eventMode = "static";
+    if (stage && container && !disabled) {
       container.eventMode = "static";
 
-      const onPointerDown = onDragStart(parent, container);
+      const onPointerDown = onDragStart(container);
       container.on("pointerdown", onPointerDown);
-      parent.on("pointerup", onDragEnd(parent));
-      parent.on("pointerupoutside", onDragEnd(parent));
+      stage.on("pointerup", onDragEnd);
+      stage.on("pointerupoutside", onDragEnd);
 
       return () => {
         container.off("pointerdown", onPointerDown);
-        parent.off("pointermove", onDragMove);
-        parent.off("pointerup", onDragEnd(parent));
-        parent.off("pointerupoutside", onDragEnd(parent));
+        stage.off("pointermove", onDragMove);
+        stage.off("pointerup", onDragEnd);
+        stage.off("pointerupoutside", onDragEnd);
       };
     }
-  }, [parent, container, disabled, onDragStart, onDragMove, onDragEnd]);
+  }, [stage, container, disabled, onDragStart, onDragMove, onDragEnd]);
 };
 
 export default useDraggableContainer;
