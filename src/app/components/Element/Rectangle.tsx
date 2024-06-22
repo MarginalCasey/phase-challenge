@@ -33,7 +33,7 @@ const Rectangle: FC<RectangleProps> = ({
       }
       if (stroke) {
         graphics.stroke({
-          alignment: StrokeAlignment.Default,
+          alignment: StrokeAlignment.Inner,
           ...stroke,
         });
       }

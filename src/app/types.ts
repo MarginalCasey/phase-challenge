@@ -10,7 +10,6 @@ interface Ifill {
 }
 
 export enum StrokeAlignment {
-  Default = 1,
   Inner = 1,
   Center = 0.5,
   Outer = 0,
