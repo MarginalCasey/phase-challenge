@@ -25,15 +25,16 @@ const useSelectionOutline = ({
 
   useEffect(() => {
     if (parent && container) {
-      const width = container.width;
-      const height = container.height;
-
       const borderWidth = 1;
-      const strokeWidth = stroke
-        ? (stroke.width ?? 1) *
-          (1 - (stroke.alignment ?? StrokeAlignment.Default))
-        : 0;
-      const totalWidth = borderWidth + strokeWidth;
+      const strokeWidth = stroke ? stroke.width ?? 1 : 0;
+      const totalWidth =
+        borderWidth +
+        (stroke
+          ? strokeWidth * (1 - (stroke.alignment ?? StrokeAlignment.Default))
+          : 0);
+
+      const width = container.width - strokeWidth; // fix PIXI calculation
+      const height = container.height - strokeWidth;
 
       const borderGraphics = new Graphics();
       borderGraphics.rect(
