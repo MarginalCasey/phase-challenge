@@ -45,7 +45,7 @@ const Rectangle: FC<RectangleProps> = ({
         parent.removeChild(graphics);
       };
     }
-  }, [parent]);
+  }, [parent, width, height]);
 
   return null;
 };

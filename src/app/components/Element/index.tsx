@@ -31,6 +31,7 @@ const Element: FC<IElement & ElementProps> = (props) => {
   } = props;
   const parentContainer = parent ?? stage;
   const isSelected = activeElementPath === path;
+  const strokeWidth = "stroke" in props ? props.stroke?.width ?? 1 : 0;
 
   useSelectableContainer({
     container,
@@ -42,7 +43,18 @@ const Element: FC<IElement & ElementProps> = (props) => {
     container,
     x,
     y,
-    stroke: ("stroke" in props && props.stroke) || undefined,
+    width:
+      "width" in props
+        ? props.width
+        : container
+          ? container.width - strokeWidth
+          : 0, // fix PIXI calculation
+    height:
+      "height" in props
+        ? props.height
+        : container
+          ? container.height - strokeWidth
+          : 0,
     visible: outline && isSelected,
   });
   useDraggableContainer({

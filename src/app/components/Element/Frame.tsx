@@ -1,6 +1,6 @@
 import { Container } from "pixi.js";
 import type { Dispatch, FC, SetStateAction } from "react";
-import { useEffect, useId } from "react";
+import { useEffect, useId, useState } from "react";
 import Element from ".";
 import usePageStore from "../../hooks/usePageStore";
 import type { IFrame } from "../../types";
@@ -37,6 +37,10 @@ const Frame: FC<FrameProps> = ({
   container,
   setContainer,
 }) => {
+  const [backgroundWrapper, setBackgroundWrapper] = useState<Container | null>(
+    null,
+  );
+
   const activeElementPath = usePageStore((state) => state.activeElementPath);
   const isActive = activeElementPath === path;
 
@@ -45,6 +49,7 @@ const Frame: FC<FrameProps> = ({
 
   useEffect(() => {
     if (parent) {
+      const backgroundWrapper = new Container();
       const container = new Container({
         x,
         y,
@@ -53,8 +58,16 @@ const Frame: FC<FrameProps> = ({
         alpha,
       });
 
+      container.addChild(backgroundWrapper);
       parent.addChild(container);
+
       setContainer(container);
+      setBackgroundWrapper(backgroundWrapper);
+
+      return () => {
+        container.removeChild(backgroundWrapper);
+        parent.removeChild(container);
+      };
     }
   }, [parent]);
 
@@ -82,8 +95,8 @@ const Frame: FC<FrameProps> = ({
         <Element
           type={ElementType.Rectangle}
           id={frameContentId}
-          name="frame content"
-          parent={container}
+          name="frame background"
+          parent={backgroundWrapper}
           path={path}
           selectable={false}
           outline={false}

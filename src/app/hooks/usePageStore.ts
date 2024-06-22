@@ -3,6 +3,13 @@ import type { Container } from "pixi.js";
 import { create } from "zustand";
 import { ElementType, IElement } from "../types";
 
+interface EditableProps {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 interface PageState {
   stage: Container | null;
   setStage: (stage: Container) => void;
@@ -11,7 +18,7 @@ interface PageState {
   setActiveElementPath: (path: string) => void;
   activeElement: Container | null;
   setActiveElement: (element: Container) => void;
-  setElement: (path: string, update: Partial<{ x: number; y: number }>) => void;
+  setElement: (path: string, update: Partial<EditableProps>) => void;
 }
 
 const usePageStore = create<PageState>((set) => ({
@@ -112,7 +119,8 @@ const usePageStore = create<PageState>((set) => ({
       }),
     );
   },
-  setElement: (path: string, { x, y }: Partial<{ x: number; y: number }>) => {
+  setElement: (path: string, properties: Partial<EditableProps>) => {
+    const { x, y, width, height } = properties;
     const idArr = path.split("/");
     idArr.shift();
 
@@ -134,8 +142,14 @@ const usePageStore = create<PageState>((set) => ({
         }
 
         if (element) {
-          element.x = x ?? element.x;
-          element.y = y ?? element.y;
+          if (x !== undefined) element.x = x;
+          if (y !== undefined) element.y = y;
+          if ("width" in element && width !== undefined) {
+            element.width = width;
+          }
+          if ("height" in element && height !== undefined) {
+            element.height = height;
+          }
         }
       }),
     );

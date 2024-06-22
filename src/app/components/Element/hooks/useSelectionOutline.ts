@@ -1,14 +1,14 @@
 import type { Container } from "pixi.js";
 import { Graphics } from "pixi.js";
 import { useEffect, useState } from "react";
-import type { IStroke } from "../../../types";
 
 interface UseSelectionOutlineProps {
   parent: Container | null;
   container: Container | null;
   x: number;
   y: number;
-  stroke?: IStroke;
+  width: number;
+  height: number;
   visible: boolean;
 }
 
@@ -17,7 +17,8 @@ const useSelectionOutline = ({
   container,
   x,
   y,
-  stroke,
+  width,
+  height,
   visible,
 }: UseSelectionOutlineProps) => {
   const [border, setBorder] = useState<Graphics | null>(null);
@@ -25,10 +26,6 @@ const useSelectionOutline = ({
   useEffect(() => {
     if (parent && container) {
       const borderWidth = 1;
-      const strokeWidth = stroke ? stroke.width ?? 1 : 0;
-
-      const width = container.width - strokeWidth; // fix PIXI calculation
-      const height = container.height - strokeWidth;
 
       const borderGraphics = new Graphics();
       borderGraphics.position.set(x, y);
@@ -48,7 +45,7 @@ const useSelectionOutline = ({
         parent.removeChild(borderGraphics);
       };
     }
-  }, [parent, container]);
+  }, [parent, container, width, height]);
 
   useEffect(() => {
     if (border) {
