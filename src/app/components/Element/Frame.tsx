@@ -1,4 +1,4 @@
-import { Container, Graphics } from "pixi.js";
+import { Container } from "pixi.js";
 import type { Dispatch, FC, SetStateAction } from "react";
 import { useEffect, useId } from "react";
 import Element from ".";
@@ -40,6 +40,7 @@ const Frame: FC<FrameProps> = ({
   const activeElementPath = usePageStore((state) => state.activeElementPath);
   const isActive = activeElementPath === path;
 
+  const frameContentId = useId();
   const frameNameId = useId();
 
   useEffect(() => {
@@ -52,20 +53,6 @@ const Frame: FC<FrameProps> = ({
         alpha,
       });
 
-      const graphics = new Graphics();
-      graphics.rect(0, 0, width, height);
-      graphics.fill(
-        fill ?? {
-          color: "white",
-          alpha: 1,
-        },
-      );
-      if (stroke) {
-        graphics.stroke(stroke);
-      }
-      graphics.alpha = 1;
-
-      container.addChild(graphics);
       parent.addChild(container);
       setContainer(container);
     }
@@ -86,6 +73,26 @@ const Frame: FC<FrameProps> = ({
           y={-20}
           alpha={1}
           style={isActive ? activeNameStyle : normalNameStyle}
+        />
+        <Element
+          type={ElementType.Rectangle}
+          id={frameContentId}
+          name="frame content"
+          parent={container}
+          path={path}
+          disableOutline
+          x={0}
+          y={0}
+          width={width}
+          height={height}
+          alpha={1}
+          fill={
+            fill ?? {
+              color: "white",
+              alpha: 1,
+            }
+          }
+          stroke={stroke}
         />
         {children.map((child) => {
           return (
