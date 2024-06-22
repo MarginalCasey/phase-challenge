@@ -18,13 +18,19 @@ const useSelectableContainer = ({
   );
 
   useEffect(() => {
+    function onPointerDown() {
+      setActiveElementPath(path);
+    }
+
     if (container && !disabled) {
       container.eventMode = "static";
-      container.on("pointerdown", () => {
-        setActiveElementPath(path);
-      });
+      container.on("pointerdown", onPointerDown);
+
+      return () => {
+        container.off("pointerdown", onPointerDown);
+      };
     }
-  }, [container, disabled]);
+  }, [container, path, disabled, setActiveElementPath]);
 };
 
 export default useSelectableContainer;

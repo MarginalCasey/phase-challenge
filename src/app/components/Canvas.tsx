@@ -37,7 +37,7 @@ const Canvas = () => {
         app.destroy();
       };
     }
-  }, []);
+  }, [setStage]);
 
   return (
     <CanvasWrapper ref={wrapperRef}>
