@@ -23,13 +23,10 @@ const Text: FC<TextProps> = ({
   container,
   setContainer,
 }) => {
-  const stage = usePageStore((state) => state.stage);
   const activeElementPath = usePageStore((state) => state.activeElementPath);
 
-  const parentContainer = parent ?? stage;
-
   useEffect(() => {
-    if (parentContainer) {
+    if (parent) {
       const textObj = new PixiText({
         text,
         x,
@@ -39,13 +36,13 @@ const Text: FC<TextProps> = ({
       });
 
       setContainer(textObj);
-      parentContainer.addChild(textObj);
+      parent.addChild(textObj);
 
       return () => {
-        parentContainer.removeChild(textObj);
+        parent.removeChild(textObj);
       };
     }
-  }, [parentContainer]);
+  }, [parent]);
 
   useEffect(() => {
     if (container) {
@@ -56,7 +53,7 @@ const Text: FC<TextProps> = ({
   if (container && !isHandle) {
     return (
       <ElementWrapper
-        parent={parentContainer}
+        parent={parent}
         x={x}
         y={y}
         width={container.width}

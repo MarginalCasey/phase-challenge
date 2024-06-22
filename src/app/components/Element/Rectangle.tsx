@@ -24,13 +24,10 @@ const Rectangle: FC<RectangleProps> = ({
   stroke,
   setContainer,
 }) => {
-  const stage = usePageStore((state) => state.stage);
   const activeElementPath = usePageStore((state) => state.activeElementPath);
 
-  const parentContainer = parent ?? stage;
-
   useEffect(() => {
-    if (parentContainer) {
+    if (parent) {
       const graphics = new Graphics();
       graphics.rect(x, y, width, height);
       if (fill) {
@@ -44,18 +41,18 @@ const Rectangle: FC<RectangleProps> = ({
       }
       graphics.alpha = alpha;
 
-      parentContainer.addChild(graphics);
+      parent.addChild(graphics);
       setContainer(graphics);
 
       return () => {
-        parentContainer.removeChild(graphics);
+        parent.removeChild(graphics);
       };
     }
-  }, [parentContainer]);
+  }, [parent]);
 
   return (
     <ElementWrapper
-      parent={parentContainer}
+      parent={parent}
       x={x}
       y={y}
       width={width}

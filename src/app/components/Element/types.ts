@@ -1,7 +1,7 @@
 import type { Container } from "pixi.js";
 
 export interface ElementProps {
-  parent?: Container;
+  parent: Container | null;
   path: string;
   isHandle?: boolean;
 }

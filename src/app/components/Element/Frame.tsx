@@ -36,17 +36,14 @@ const Frame: FC<FrameProps> = ({
   stroke,
   children,
 }) => {
-  const stage = usePageStore((state) => state.stage);
   const activeElementPath = usePageStore((state) => state.activeElementPath);
   const isActive = activeElementPath === path;
-
-  const parentContainer = parent ?? stage;
 
   const [frame, setFrame] = useState<Container | null>(null);
   const frameNameId = useId();
 
   useEffect(() => {
-    if (parentContainer) {
+    if (parent) {
       const container = new Container({
         x,
         y,
@@ -69,15 +66,15 @@ const Frame: FC<FrameProps> = ({
       graphics.alpha = 1;
 
       container.addChild(graphics);
-      parentContainer.addChild(container);
+      parent.addChild(container);
       setFrame(container);
     }
-  }, [parentContainer]);
+  }, [parent]);
 
   if (frame) {
     return (
       <ElementWrapper
-        parent={parentContainer}
+        parent={parent}
         x={x}
         y={y}
         width={width}
