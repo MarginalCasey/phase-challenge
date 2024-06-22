@@ -31,7 +31,9 @@ const useSelectionOutline = ({
       const height = container.height - strokeWidth;
 
       const borderGraphics = new Graphics();
-      borderGraphics.rect(x, y, width, height);
+      borderGraphics.position.set(x, y);
+
+      borderGraphics.rect(0, 0, width, height);
       borderGraphics.stroke({
         color: "#0d99ff",
         width: borderWidth,

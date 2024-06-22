@@ -24,7 +24,10 @@ const Rectangle: FC<RectangleProps> = ({
   useEffect(() => {
     if (parent) {
       const graphics = new Graphics();
-      graphics.rect(x, y, width, height);
+      graphics.position.set(x, y);
+      graphics.alpha = alpha;
+
+      graphics.rect(0, 0, width, height);
       if (fill) {
         graphics.fill(fill);
       }
@@ -34,7 +37,6 @@ const Rectangle: FC<RectangleProps> = ({
           ...stroke,
         });
       }
-      graphics.alpha = alpha;
 
       parent.addChild(graphics);
       setContainer(graphics);
