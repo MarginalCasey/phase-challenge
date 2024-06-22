@@ -1,11 +1,10 @@
 import { Container, Graphics } from "pixi.js";
 import type { Dispatch, FC, SetStateAction } from "react";
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId } from "react";
 import Element from ".";
 import usePageStore from "../../hooks/usePageStore";
 import type { IFrame } from "../../types";
 import { ElementType } from "../../types";
-import ElementWrapper from "../ElementWrapper";
 import type { ElementProps } from "./types";
 
 interface FrameProps extends Omit<IFrame, "type">, ElementProps {
@@ -35,11 +34,12 @@ const Frame: FC<FrameProps> = ({
   fill,
   stroke,
   children,
+  container,
+  setContainer,
 }) => {
   const activeElementPath = usePageStore((state) => state.activeElementPath);
   const isActive = activeElementPath === path;
 
-  const [frame, setFrame] = useState<Container | null>(null);
   const frameNameId = useId();
 
   useEffect(() => {
@@ -67,28 +67,20 @@ const Frame: FC<FrameProps> = ({
 
       container.addChild(graphics);
       parent.addChild(container);
-      setFrame(container);
+      setContainer(container);
     }
   }, [parent]);
 
-  if (frame) {
+  if (container) {
     return (
-      <ElementWrapper
-        parent={parent}
-        x={x}
-        y={y}
-        width={width}
-        height={height}
-        stroke={stroke}
-        visible={isActive}
-      >
+      <>
         <Element
           type={ElementType.Text}
           id={frameNameId}
           name="frame title"
-          parent={frame}
+          parent={container}
           path={path}
-          isHandle
+          disableOutline
           text={name}
           x={0}
           y={-20}
@@ -99,13 +91,13 @@ const Frame: FC<FrameProps> = ({
           return (
             <Element
               key={child.id}
-              parent={frame}
+              parent={container}
               path={`${path}/${child.id}`}
               {...child}
             />
           );
         })}
-      </ElementWrapper>
+      </>
     );
   }
 

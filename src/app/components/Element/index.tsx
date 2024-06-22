@@ -8,16 +8,32 @@ import Frame from "./Frame";
 import Rectangle from "./Rectangle";
 import Text from "./Text";
 import useSelectableContainer from "./hooks/useSelectableContainer";
+import useSelectionOutline from "./hooks/useSelectionOutline";
 import type { ElementProps } from "./types";
 
 const Element: FC<IElement & ElementProps> = (props) => {
-  const { parent, path } = props;
+  const [container, setContainer] = useState<Container | null>(null);
 
   const stage = usePageStore((state) => state.stage);
-  const parentContainer = parent ?? stage;
+  const activeElementPath = usePageStore((state) => state.activeElementPath);
 
-  const [container, setContainer] = useState<Container | null>(null);
-  useSelectableContainer(container, path);
+  const { x, y, parent, path, disableOutline } = props;
+  const parentContainer = parent ?? stage;
+  const isSelected = activeElementPath === path;
+
+  useSelectableContainer({
+    container,
+    path,
+    disabled: props.type === ElementType.Frame,
+  });
+  useSelectionOutline({
+    parent: parentContainer,
+    container,
+    x,
+    y,
+    stroke: ("stroke" in props && props.stroke) || undefined,
+    visible: !disableOutline && isSelected,
+  });
 
   switch (props.type) {
     case ElementType.Frame:

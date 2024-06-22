@@ -1,10 +1,8 @@
 import { Graphics } from "pixi.js";
 import type { Dispatch, FC, SetStateAction } from "react";
 import { useEffect } from "react";
-import usePageStore from "../../hooks/usePageStore";
 import type { IRectangle } from "../../types";
 import { StrokeAlignment } from "../../types";
-import ElementWrapper from "../ElementWrapper";
 import type { ElementProps } from "./types";
 
 interface RectangleProps extends Omit<IRectangle, "type">, ElementProps {
@@ -14,7 +12,6 @@ interface RectangleProps extends Omit<IRectangle, "type">, ElementProps {
 
 const Rectangle: FC<RectangleProps> = ({
   parent,
-  path,
   x,
   y,
   width,
@@ -24,8 +21,6 @@ const Rectangle: FC<RectangleProps> = ({
   stroke,
   setContainer,
 }) => {
-  const activeElementPath = usePageStore((state) => state.activeElementPath);
-
   useEffect(() => {
     if (parent) {
       const graphics = new Graphics();
@@ -50,17 +45,7 @@ const Rectangle: FC<RectangleProps> = ({
     }
   }, [parent]);
 
-  return (
-    <ElementWrapper
-      parent={parent}
-      x={x}
-      y={y}
-      width={width}
-      height={height}
-      stroke={stroke}
-      visible={activeElementPath === path}
-    />
-  );
+  return null;
 };
 
 export default Rectangle;

@@ -1,35 +1,33 @@
 import type { Container } from "pixi.js";
 import { Graphics } from "pixi.js";
-import type { FC, ReactNode } from "react";
 import { useEffect, useState } from "react";
-import type { IStroke } from "../../types";
-import { StrokeAlignment } from "../../types";
+import type { IStroke } from "../../../types";
+import { StrokeAlignment } from "../../../types";
 
-interface ElementWrapperProps {
+interface UseSelectionOutlineProps {
   parent: Container | null;
-  stroke?: IStroke;
+  container: Container | null;
   x: number;
   y: number;
-  width: number;
-  height: number;
+  stroke?: IStroke;
   visible: boolean;
-  children?: ReactNode;
 }
 
-const ElementWrapper: FC<ElementWrapperProps> = ({
+const useSelectionOutline = ({
   parent,
+  container,
   x,
   y,
-  width,
-  height,
   stroke,
   visible,
-  children,
-}) => {
+}: UseSelectionOutlineProps) => {
   const [border, setBorder] = useState<Graphics | null>(null);
 
   useEffect(() => {
-    if (parent) {
+    if (parent && container) {
+      const width = container.width;
+      const height = container.height;
+
       const borderWidth = 1;
       const strokeWidth = stroke
         ? (stroke.width ?? 1) *
@@ -58,15 +56,13 @@ const ElementWrapper: FC<ElementWrapperProps> = ({
         parent.removeChild(borderGraphics);
       };
     }
-  }, [parent]);
+  }, [parent, container]);
 
   useEffect(() => {
     if (border) {
       border.visible = visible;
     }
   }, [border, visible]);
-
-  return children ?? null;
 };
 
-export default ElementWrapper;
+export default useSelectionOutline;

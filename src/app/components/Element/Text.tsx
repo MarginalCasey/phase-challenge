@@ -1,9 +1,7 @@
 import { Text as PixiText } from "pixi.js";
 import type { Dispatch, FC, SetStateAction } from "react";
 import { useEffect } from "react";
-import usePageStore from "../../hooks/usePageStore";
 import type { IText } from "../../types";
-import ElementWrapper from "../ElementWrapper";
 import type { ElementProps } from "./types";
 
 interface TextProps extends Omit<IText, "type">, ElementProps {
@@ -13,8 +11,6 @@ interface TextProps extends Omit<IText, "type">, ElementProps {
 
 const Text: FC<TextProps> = ({
   parent,
-  path,
-  isHandle,
   x,
   y,
   alpha,
@@ -23,8 +19,6 @@ const Text: FC<TextProps> = ({
   container,
   setContainer,
 }) => {
-  const activeElementPath = usePageStore((state) => state.activeElementPath);
-
   useEffect(() => {
     if (parent) {
       const textObj = new PixiText({
@@ -49,19 +43,6 @@ const Text: FC<TextProps> = ({
       container.style = style;
     }
   }, [container, style]);
-
-  if (container && !isHandle) {
-    return (
-      <ElementWrapper
-        parent={parent}
-        x={x}
-        y={y}
-        width={container.width}
-        height={container.height}
-        visible={activeElementPath === path}
-      />
-    );
-  }
 
   return null;
 };
