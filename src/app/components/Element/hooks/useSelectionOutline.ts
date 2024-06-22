@@ -2,7 +2,6 @@ import type { Container } from "pixi.js";
 import { Graphics } from "pixi.js";
 import { useEffect, useState } from "react";
 import type { IStroke } from "../../../types";
-import { StrokeAlignment } from "../../../types";
 
 interface UseSelectionOutlineProps {
   parent: Container | null;
@@ -27,22 +26,12 @@ const useSelectionOutline = ({
     if (parent && container) {
       const borderWidth = 1;
       const strokeWidth = stroke ? stroke.width ?? 1 : 0;
-      const totalWidth =
-        borderWidth +
-        (stroke
-          ? strokeWidth * (1 - (stroke.alignment ?? StrokeAlignment.Default))
-          : 0);
 
       const width = container.width - strokeWidth; // fix PIXI calculation
       const height = container.height - strokeWidth;
 
       const borderGraphics = new Graphics();
-      borderGraphics.rect(
-        x - totalWidth,
-        y - totalWidth,
-        width + 2 * totalWidth,
-        height + 2 * totalWidth,
-      );
+      borderGraphics.rect(x, y, width, height);
       borderGraphics.stroke({
         color: "#0d99ff",
         width: borderWidth,

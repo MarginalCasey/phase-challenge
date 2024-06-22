@@ -71,7 +71,25 @@ const usePageStore = create<PageState>((set) => ({
       },
       stroke: {
         color: "0x650a5a",
-        width: 2,
+        width: 5,
+      },
+    },
+    {
+      type: ElementType.Rectangle,
+      id: "3",
+      name: "Rectangle 3",
+      x: 400,
+      y: 50,
+      width: 100,
+      height: 100,
+      alpha: 1,
+      fill: {
+        color: "0xde3249",
+      },
+      stroke: {
+        alignment: 0,
+        color: "0x650a5a",
+        width: 5,
       },
     },
   ],
