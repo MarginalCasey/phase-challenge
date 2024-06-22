@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 interface InputNumberProps {
   value: number;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (value: number) => void;
   disabled?: boolean;
 }
 
@@ -20,7 +20,7 @@ const InputNumber: FC<InputNumberProps> = ({ value, onChange, disabled }) => {
     const value = Number(event.target.value);
 
     if (isNaN(value)) return;
-    onChange(event);
+    onChange(value);
   }
 
   function handleBlur() {

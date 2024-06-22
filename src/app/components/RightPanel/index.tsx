@@ -26,12 +26,8 @@ const RightPanel = () => {
   })();
 
   function handleInputChange(property: string) {
-    return (event: React.ChangeEvent<HTMLInputElement>) => {
+    return (value: number) => {
       if (activeElementPath) {
-        const value = parseInt(event.target.value);
-
-        if (isNaN(value)) return;
-
         setElement(activeElementPath, { [property]: value });
       }
     };
