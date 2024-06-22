@@ -24,6 +24,7 @@ const Element: FC<IElement & ElementProps> = (props) => {
     parent,
     path,
     outline = true,
+    selectable = true,
     draggable = true,
     dragHandlePosition,
   } = props;
@@ -33,7 +34,7 @@ const Element: FC<IElement & ElementProps> = (props) => {
   useSelectableContainer({
     container,
     path,
-    disabled: props.type === ElementType.Frame,
+    disabled: props.type === ElementType.Frame || !selectable,
   });
   useSelectionOutline({
     parent: parentContainer,

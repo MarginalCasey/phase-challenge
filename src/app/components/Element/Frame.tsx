@@ -85,6 +85,7 @@ const Frame: FC<FrameProps> = ({
           name="frame content"
           parent={container}
           path={path}
+          selectable={false}
           outline={false}
           draggable={false}
           x={0}
