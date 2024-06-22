@@ -65,12 +65,12 @@ const Frame: FC<FrameProps> = ({
           type={ElementType.Text}
           id={frameNameId}
           name="frame title"
-          parent={container}
+          parent={null}
           path={path}
           outline={false}
           text={name}
-          x={0}
-          y={-20}
+          x={x}
+          y={x - 20}
           alpha={1}
           style={isActive ? activeNameStyle : normalNameStyle}
         />
