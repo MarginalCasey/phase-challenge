@@ -1,7 +1,7 @@
 import usePagesStore from "@/hooks/usePagesStore";
 import type { FC } from "react";
 import { useRef, useState } from "react";
-import NameInput from "./NameInput";
+import NameInput from "../components/NameInput";
 import useFetchPages from "./hooks/useFetchPages";
 import { Link, PagesWrapper, Title } from "./index.style";
 
@@ -12,6 +12,7 @@ interface PagesProps {
 const Pages: FC<PagesProps> = ({ currentPageId }) => {
   useFetchPages();
   const pages = usePagesStore((state) => state.pages);
+  const updatePageName = usePagesStore((state) => state.updatePageName);
 
   const clickTimeout = useRef<NodeJS.Timeout | null>(null);
 
@@ -54,7 +55,13 @@ const Pages: FC<PagesProps> = ({ currentPageId }) => {
       <Title>Pages</Title>
       {pages.map((page) =>
         editingPageId === page.id ? (
-          <NameInput key={page.id} id={page.id} onBlur={hideNameInput} />
+          <NameInput<number>
+            key={page.id}
+            id={page.id}
+            value={page.name}
+            onBlur={hideNameInput}
+            updater={updatePageName}
+          />
         ) : (
           <Link
             key={page.id}
