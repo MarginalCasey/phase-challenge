@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import SideNav from "./components/SideNav";
+import StyledComponentsRegistry from "./components/StyledComponentsRegistry";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,8 +19,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <div className="grid grid-flow-col grid-cols-[240px_auto_240px] bg-[#f2f2f2] h-screen">
-          <SideNav />
-          {children}
+          <StyledComponentsRegistry>
+            <SideNav />
+            {children}
+          </StyledComponentsRegistry>
         </div>
       </body>
     </html>
