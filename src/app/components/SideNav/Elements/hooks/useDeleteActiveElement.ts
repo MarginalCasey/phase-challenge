@@ -7,6 +7,12 @@ const useDeleteActiveElement = () => {
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
+      const activeElement = document.activeElement;
+
+      if (activeElement && activeElement !== document.body) {
+        return;
+      }
+
       if (
         (event.key === "Delete" || event.key === "Backspace") &&
         activeElementPath
