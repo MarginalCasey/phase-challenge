@@ -11,7 +11,7 @@ export interface IPageListItem {
 interface PagesState {
   pages: IPageListItem[];
   fetchPages: () => void;
-  updatePageName: (id: number, name: string) => void;
+  updatePageName: (idStr: string, name: string) => void;
 }
 
 async function fetchPages() {
@@ -35,10 +35,10 @@ const usePagesStore = create<PagesState>((set, get) => ({
       }),
     );
   },
-  updatePageName: (id: number, name: string) => {
+  updatePageName: (idStr: string, name: string) => {
     set(
       produce((state: PagesState) => {
-        const page = state.pages.find((page) => page.id === id);
+        const page = state.pages.find((page) => page.id === Number(idStr));
         if (page) {
           page.name = name;
         }

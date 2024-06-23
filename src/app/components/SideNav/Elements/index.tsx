@@ -74,9 +74,9 @@ const Elements: FC<ElementsProps> = ({ currentPageId }) => {
               {element.type === ElementType.Frame && <FrameIcon />}
             </IconWrapper>
             {isEditingName ? (
-              <NameInput<string>
+              <NameInput
                 key={element.id}
-                id={element.id}
+                path={path}
                 value={element.name}
                 onBlur={hideNameInput}
                 updater={updateElementName}
@@ -105,9 +105,9 @@ const Elements: FC<ElementsProps> = ({ currentPageId }) => {
           {element.type === ElementType.Rectangle && <RectangleIcon />}
         </IconWrapper>
         {isEditingName ? (
-          <NameInput<string>
+          <NameInput
             key={element.id}
-            id={element.id}
+            path={path}
             value={element.name}
             onBlur={hideNameInput}
             updater={updateElementName}

@@ -55,9 +55,9 @@ const Pages: FC<PagesProps> = ({ currentPageId }) => {
       <Title>Pages</Title>
       {pages.map((page) =>
         editingPageId === page.id ? (
-          <NameInput<number>
+          <NameInput
             key={page.id}
-            id={page.id}
+            path={page.id.toString()}
             value={page.name}
             onBlur={hideNameInput}
             updater={updatePageName}

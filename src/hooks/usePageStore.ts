@@ -23,7 +23,7 @@ interface PageState {
   activeElementPath: string | null;
   activeElement: Container | null;
   fetchPage: (id: number) => void;
-  updateElementName: (elementId: string, name: string) => void;
+  updateElementName: (path: string, name: string) => void;
   setStage: (stage: Container) => void;
   setActiveElementPath: (path: string) => void;
   setActiveElement: (element: Container) => void;
@@ -38,6 +38,28 @@ async function fetchPage(id: number): Promise<IElement[]> {
 
 function updatePage(id: number, page: IElement[]) {
   localforage.setItem(`page.${id}`, page);
+}
+
+function getElement(page: IElement[], path: string) {
+  let list: IElement[] = page;
+  let element: IElement | null = null;
+
+  const idArr = path.split("/");
+  idArr.shift();
+
+  while (idArr.length > 0) {
+    const id = idArr.shift();
+
+    element = list.find((child) => child.id === id) ?? null;
+    if (element === null) break;
+    if ("children" in element) {
+      list = element.children;
+    } else {
+      list = [];
+    }
+  }
+
+  return element;
 }
 
 const initialState = {
@@ -70,10 +92,11 @@ const usePageStore = create<PageState>((set, get) => ({
       }),
     );
   },
-  updateElementName: (elementId: string, name: string) => {
+  updateElementName: (path: string, name: string) => {
     set(
       produce<PageState>((state) => {
-        const element = state.page.find((element) => element.id === elementId);
+        const element = getElement(state.page, path);
+
         if (element) {
           element.name = name;
         }
@@ -110,20 +133,7 @@ const usePageStore = create<PageState>((set, get) => ({
 
     set(
       produce((state) => {
-        let list: IElement[] = state.page;
-        let element: IElement | null = null;
-
-        while (idArr.length > 0) {
-          const id = idArr.shift();
-
-          element = list.find((child) => child.id === id) ?? null;
-          if (element === null) break;
-          if ("children" in element) {
-            list = element.children;
-          } else {
-            list = [];
-          }
-        }
+        const element = getElement(state.page, path);
 
         if (element) {
           if (x !== undefined) element.x = x;
