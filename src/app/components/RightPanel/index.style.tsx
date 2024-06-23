@@ -25,7 +25,8 @@ export const Title = styled.div`
   color: rgba(0, 0, 0, 0.898);
 `;
 
-export const Label = styled.label`
+export const FormItem = styled.label`
+  padding: 0 8px;
   border: 1px solid transparent;
   height: 28px;
   font-size: 11px;
@@ -41,15 +42,8 @@ export const Label = styled.label`
     outline: 1px solid #0d99ff;
   }
 
-  span {
-    width: 32px;
-    text-align: center;
-    color: rgba(0, 0, 0, 0.5);
-  }
-
-  input {
+  > input {
     flex: 1 0 0%;
-    padding-left: 8px;
     border: none;
     min-width: 0;
     height: 100%;
@@ -61,8 +55,16 @@ export const Label = styled.label`
       background-color: transparent;
     }
   }
+`;
 
-  span + input {
-    padding-left: 0;
-  }
+export const Label = styled.span`
+  margin-left: -8px;
+  width: 32px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.5);
+`;
+
+export const Unit = styled.span`
+  margin-left: 8px;
+  color: rgba(0, 0, 0, 0.5);
 `;

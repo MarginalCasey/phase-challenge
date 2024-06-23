@@ -1,7 +1,14 @@
 import usePageStore from "../../hooks/usePageStore";
 import InputNumber from "./components/InputNumber";
 import useActiveElement from "./hooks/useActiveElement";
-import { Label, RightPanelWrapper, Section, Title } from "./index.style";
+import {
+  FormItem,
+  Label,
+  RightPanelWrapper,
+  Section,
+  Title,
+  Unit,
+} from "./index.style";
 
 const RightPanel = () => {
   const element = useActiveElement();
@@ -44,49 +51,49 @@ const RightPanel = () => {
       {element && renderedElement && (
         <>
           <Section>
-            <Label>
-              <span>X</span>
+            <FormItem>
+              <Label>X</Label>
               <InputNumber
                 value={element.x}
                 onChange={handleInputChange("x")}
               />
-            </Label>
-            <Label>
-              <span>Y</span>
+            </FormItem>
+            <FormItem>
+              <Label>Y</Label>
               <InputNumber
                 value={element.y}
                 onChange={handleInputChange("y")}
               />
-            </Label>
-            <Label>
-              <span>W</span>
+            </FormItem>
+            <FormItem>
+              <Label>W</Label>
               <InputNumber
                 value={"width" in element ? element.width : width}
                 onChange={handleInputChange("width")}
                 disabled={!("width" in element)}
               />
-            </Label>
-            <Label>
-              <span>H</span>
+            </FormItem>
+            <FormItem>
+              <Label>H</Label>
               <InputNumber
                 value={"height" in element ? element.height : height}
                 onChange={handleInputChange("height")}
                 disabled={!("height" in element)}
               />
-            </Label>
+            </FormItem>
           </Section>
           <Section>
             <Title>Opacity</Title>
             <div>
-              <Label>
+              <FormItem>
                 <InputNumber
                   value={element.alpha * 100}
                   onChange={handleOpacityChange}
                   min={0}
                   max={100}
                 />
-                <span>%</span>
-              </Label>
+                <Unit>%</Unit>
+              </FormItem>
             </div>
           </Section>
         </>
