@@ -78,7 +78,7 @@ const Frame: FC<FrameProps> = ({
           type={ElementType.Text}
           id={frameNameId}
           name="frame title"
-          parent={null}
+          parent={parent}
           path={path}
           outline={false}
           draggable
