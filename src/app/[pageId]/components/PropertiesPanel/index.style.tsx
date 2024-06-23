@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const RightPanelWrapper = styled.div`
+export const PanelWrapper = styled.div`
   background-color: white;
   border-left: 1px solid #e6e6e6;
 `;

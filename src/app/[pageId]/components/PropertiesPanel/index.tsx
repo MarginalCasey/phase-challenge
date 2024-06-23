@@ -5,14 +5,14 @@ import { ElementType } from "@/types";
 import BlockProperties from "./BlockProperties";
 import CommonProperties from "./CommonProperties";
 import useActiveElement from "./hooks/useActiveElement";
-import { RightPanelWrapper } from "./index.style";
+import { PanelWrapper } from "./index.style";
 
-const RightPanel = () => {
+const PropertiesPanel = () => {
   const element = useActiveElement();
   const renderedElement = usePageStore((state) => state.activeElement);
 
   return (
-    <RightPanelWrapper>
+    <PanelWrapper>
       {element && renderedElement && (
         <>
           <CommonProperties element={element} />
@@ -22,8 +22,8 @@ const RightPanel = () => {
           )}
         </>
       )}
-    </RightPanelWrapper>
+    </PanelWrapper>
   );
 };
 
-export default RightPanel;
+export default PropertiesPanel;

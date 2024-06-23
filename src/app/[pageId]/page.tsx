@@ -1,11 +1,11 @@
 import Canvas from "./components/Canvas";
-import RightPanel from "./components/RightPanel";
+import PropertiesPanel from "./components/PropertiesPanel";
 
 export default function Home() {
   return (
     <>
       <Canvas />
-      <RightPanel />
+      <PropertiesPanel />
     </>
   );
 }
