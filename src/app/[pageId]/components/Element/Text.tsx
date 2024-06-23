@@ -1,7 +1,7 @@
+import type { IText } from "@/types";
 import { Text as PixiText } from "pixi.js";
 import type { Dispatch, FC, SetStateAction } from "react";
 import { useEffect } from "react";
-import type { IText } from "../../types";
 import type { ElementProps } from "./types";
 
 interface TextProps extends Omit<IText, "type">, ElementProps {

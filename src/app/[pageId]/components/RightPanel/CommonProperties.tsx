@@ -1,6 +1,6 @@
+import usePageStore from "@/hooks/usePageStore";
+import type { IElement } from "@/types";
 import type { FC } from "react";
-import usePageStore from "../../hooks/usePageStore";
-import type { IElement } from "../../types";
 import InputNumber from "./components/InputNumber";
 import { FormItem, Label, Section, Title, Unit } from "./index.style";
 

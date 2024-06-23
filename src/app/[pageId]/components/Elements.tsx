@@ -1,6 +1,6 @@
+import usePageStore from "@/hooks/usePageStore";
+import type { IElement } from "@/types";
 import styled from "styled-components";
-import useStageStore from "../hooks/usePageStore";
-import type { IElement } from "../types";
 
 const Link = styled.div<{ $active: boolean }>`
   color: ${(props) => (props.$active ? "red" : "white")};
@@ -8,9 +8,9 @@ const Link = styled.div<{ $active: boolean }>`
 `;
 
 const Elements = () => {
-  const page = useStageStore((state) => state.page);
-  const activeElementPath = useStageStore((state) => state.activeElementPath);
-  const setActiveElementPath = useStageStore(
+  const page = usePageStore((state) => state.page);
+  const activeElementPath = usePageStore((state) => state.activeElementPath);
+  const setActiveElementPath = usePageStore(
     (state) => state.setActiveElementPath,
   );
 

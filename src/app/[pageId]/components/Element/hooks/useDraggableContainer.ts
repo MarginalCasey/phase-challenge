@@ -1,6 +1,6 @@
+import usePageStore from "@/hooks/usePageStore";
 import type { Container, FederatedPointerEvent } from "pixi.js";
 import { useCallback, useEffect, useRef } from "react";
-import usePageStore from "../../../hooks/usePageStore";
 
 interface UseDraggableContainerProps {
   parent: Container | null;

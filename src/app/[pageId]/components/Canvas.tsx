@@ -1,7 +1,7 @@
+import usePageStore from "@/hooks/usePageStore";
 import { Application } from "pixi.js";
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
-import usePageStore from "../hooks/usePageStore";
 import Element from "./Element";
 
 const CanvasWrapper = styled.div`

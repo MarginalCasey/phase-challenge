@@ -1,8 +1,8 @@
-import { DEFAULT_FILL, DEFAULT_STROKE } from "@/app/constants";
-import type { IBLockElement } from "@/app/types";
-import { StrokeAlignment } from "@/app/types";
+import { DEFAULT_FILL, DEFAULT_STROKE } from "@/constants";
+import usePageStore from "@/hooks/usePageStore";
+import type { IBLockElement } from "@/types";
+import { StrokeAlignment } from "@/types";
 import type { ChangeEvent, FC } from "react";
-import usePageStore from "../../hooks/usePageStore";
 import ColorPicker from "./components/ColorPicker";
 import InputNumber from "./components/InputNumber";
 import { FormItem, Label, Section, Title, Unit } from "./index.style";

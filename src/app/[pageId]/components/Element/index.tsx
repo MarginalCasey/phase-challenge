@@ -1,9 +1,9 @@
+import usePageStore from "@/hooks/usePageStore";
+import type { IElement } from "@/types";
+import { ElementType } from "@/types";
 import type { Container, Graphics, Text as PixiText } from "pixi.js";
 import type { Dispatch, FC, SetStateAction } from "react";
 import { useEffect, useState } from "react";
-import usePageStore from "../../hooks/usePageStore";
-import type { IElement } from "../../types";
-import { ElementType } from "../../types";
 import Frame from "./Frame";
 import Rectangle from "./Rectangle";
 import Text from "./Text";

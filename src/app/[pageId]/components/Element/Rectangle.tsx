@@ -1,8 +1,8 @@
+import { DEFAULT_FILL, DEFAULT_STROKE } from "@/constants";
+import type { IRectangle } from "@/types";
 import { Graphics } from "pixi.js";
 import type { Dispatch, FC, SetStateAction } from "react";
 import { useEffect } from "react";
-import { DEFAULT_FILL, DEFAULT_STROKE } from "../../constants";
-import type { IRectangle } from "../../types";
 import type { ElementProps } from "./types";
 
 interface RectangleProps extends Omit<IRectangle, "type">, ElementProps {

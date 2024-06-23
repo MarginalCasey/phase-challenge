@@ -1,10 +1,10 @@
+import usePageStore from "@/hooks/usePageStore";
+import type { IFrame } from "@/types";
+import { ElementType } from "@/types";
 import { Container } from "pixi.js";
 import type { Dispatch, FC, SetStateAction } from "react";
 import { useEffect, useId, useState } from "react";
 import Element from ".";
-import usePageStore from "../../hooks/usePageStore";
-import type { IFrame } from "../../types";
-import { ElementType } from "../../types";
 import type { ElementProps } from "./types";
 
 interface FrameProps extends Omit<IFrame, "type">, ElementProps {

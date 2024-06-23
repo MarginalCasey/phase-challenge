@@ -1,6 +1,6 @@
+import usePageStore from "@/hooks/usePageStore";
+import type { IElement } from "@/types";
 import { useMemo } from "react";
-import usePageStore from "../../../hooks/usePageStore";
-import type { IElement } from "../../../types";
 
 const useActiveElement = () => {
   const page = usePageStore((state) => state.page);

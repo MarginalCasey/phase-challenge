@@ -1,5 +1,5 @@
-import usePageStore from "../../hooks/usePageStore";
-import { ElementType } from "../../types";
+import usePageStore from "@/hooks/usePageStore";
+import { ElementType } from "@/types";
 import BlockProperties from "./BlockProperties";
 import CommonProperties from "./CommonProperties";
 import useActiveElement from "./hooks/useActiveElement";

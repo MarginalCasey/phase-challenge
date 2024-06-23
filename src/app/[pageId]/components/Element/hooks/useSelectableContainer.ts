@@ -1,6 +1,6 @@
+import usePageStore from "@/hooks/usePageStore";
 import type { Container } from "pixi.js";
 import { useEffect } from "react";
-import usePageStore from "../../../hooks/usePageStore";
 
 interface UseSelectableContainerProps {
   container: Container | null;

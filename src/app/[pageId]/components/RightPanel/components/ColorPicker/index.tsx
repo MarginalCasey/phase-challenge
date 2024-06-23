@@ -1,5 +1,5 @@
+import { DEFAULT_COLOR } from "@/constants";
 import type { ChangeEvent, FC } from "react";
-import { DEFAULT_COLOR } from "../../../../constants";
 import {
   ColorCode,
   ColorInput,
