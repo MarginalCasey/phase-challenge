@@ -20,7 +20,7 @@ export const pages: IPage[] = [
         children: [
           {
             type: ElementType.Rectangle,
-            id: "1",
+            id: "rectangle-1",
             name: "Rectangle 1",
             x: 50,
             y: 50,
@@ -34,7 +34,7 @@ export const pages: IPage[] = [
           },
           {
             type: ElementType.Text,
-            id: "4",
+            id: "text-1",
             name: "Text 1",
             x: 5,
             y: 5,
@@ -48,7 +48,7 @@ export const pages: IPage[] = [
       },
       {
         type: ElementType.Rectangle,
-        id: "2",
+        id: "rectangle-2",
         name: "Rectangle 2",
         x: 200,
         y: 50,
@@ -65,7 +65,7 @@ export const pages: IPage[] = [
       },
       {
         type: ElementType.Rectangle,
-        id: "3",
+        id: "rectangle-3",
         name: "Rectangle 3",
         x: 400,
         y: 50,
@@ -78,7 +78,7 @@ export const pages: IPage[] = [
       },
       {
         type: ElementType.Rectangle,
-        id: "4",
+        id: "rectangle-4",
         name: "Rectangle 4",
         x: 600,
         y: 50,
