@@ -1,4 +1,5 @@
 import usePageStore from "@/hooks/usePageStore";
+import useToolbarStore, { Tool } from "@/hooks/useToolbarStore";
 import type { IElement } from "@/types";
 import { ElementType } from "@/types";
 import type { Container, Graphics, Text as PixiText } from "pixi.js";
@@ -18,6 +19,7 @@ const Element: FC<IElement & ElementProps> = (props) => {
   const stage = usePageStore((state) => state.stage);
   const activeElementPath = usePageStore((state) => state.activeElementPath);
   const setActiveElement = usePageStore((state) => state.setActiveElement);
+  const currentTool = useToolbarStore((state) => state.currentTool);
 
   const {
     x,
@@ -37,7 +39,10 @@ const Element: FC<IElement & ElementProps> = (props) => {
   useSelectableContainer({
     container,
     path,
-    disabled: props.type === ElementType.Frame || !selectable,
+    disabled:
+      props.type === ElementType.Frame ||
+      !selectable ||
+      currentTool !== Tool.Select,
   });
   useSelectionOutline({
     parent: parentContainer,
@@ -63,7 +68,10 @@ const Element: FC<IElement & ElementProps> = (props) => {
     container,
     path,
     handlePosition: dragHandlePosition,
-    disabled: props.type === ElementType.Frame || !draggable,
+    disabled:
+      props.type === ElementType.Frame ||
+      !draggable ||
+      currentTool !== Tool.Select,
   });
 
   useEffect(() => {
