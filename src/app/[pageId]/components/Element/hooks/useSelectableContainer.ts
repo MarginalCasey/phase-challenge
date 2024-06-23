@@ -1,5 +1,5 @@
 import usePageStore from "@/hooks/usePageStore";
-import type { Container } from "pixi.js";
+import type { Container, FederatedPointerEvent } from "pixi.js";
 import { useEffect } from "react";
 
 interface UseSelectableContainerProps {
@@ -18,7 +18,8 @@ const useSelectableContainer = ({
   );
 
   useEffect(() => {
-    function onPointerDown() {
+    function onPointerDown(event: FederatedPointerEvent) {
+      event.stopPropagation();
       setActiveElementPath(path);
     }
 

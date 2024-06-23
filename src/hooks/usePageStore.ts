@@ -26,7 +26,7 @@ interface PageState {
   addElement: (parentPath: string | null, element: IElement) => void;
   updateElementName: (path: string, name: string) => void;
   setStage: (stage: Container) => void;
-  setActiveElementPath: (path: string) => void;
+  setActiveElementPath: (path: string | null) => void;
   setActiveElement: (element: Container) => void;
   setElement: (path: string, update: Partial<EditableProps>) => void;
 }

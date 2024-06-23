@@ -17,6 +17,9 @@ const Canvas = () => {
   const stage = usePageStore((state) => state.stage);
   const setStage = usePageStore((state) => state.setStage);
   const page = usePageStore((state) => state.page);
+  const setActiveElementPath = usePageStore(
+    (state) => state.setActiveElementPath,
+  );
 
   const currentTool = useToolbarStore((state) => state.currentTool);
 
@@ -45,6 +48,20 @@ const Canvas = () => {
   }, [setStage]);
 
   useAddElement({ container: stage, path: null });
+
+  useEffect(() => {
+    function resetActiveElement() {
+      setActiveElementPath(null);
+    }
+
+    if (stage && currentTool === Tool.Select) {
+      stage.on("pointerdown", resetActiveElement);
+
+      return () => {
+        stage.off("pointerdown", resetActiveElement);
+      };
+    }
+  }, [stage, currentTool, setActiveElementPath]);
 
   return (
     <CanvasWrapper ref={wrapperRef} $addElement={currentTool !== Tool.Select}>
