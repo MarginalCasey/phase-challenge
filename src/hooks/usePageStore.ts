@@ -1,4 +1,6 @@
+import { pages } from "@/mockData";
 import { produce } from "immer";
+import localforage from "localforage";
 import type { Container } from "pixi.js";
 import { create } from "zustand";
 import { DEFAULT_FILL, DEFAULT_STROKE } from "../constants";
@@ -15,113 +17,64 @@ interface EditableProps {
 }
 
 interface PageState {
-  stage: Container | null;
-  setStage: (stage: Container) => void;
+  id: number | null;
   page: IElement[];
+  stage: Container | null;
   activeElementPath: string | null;
-  setActiveElementPath: (path: string) => void;
   activeElement: Container | null;
+  fetchPage: (id: number) => void;
+  setStage: (stage: Container) => void;
+  setActiveElementPath: (path: string) => void;
   setActiveElement: (element: Container) => void;
   setElement: (path: string, update: Partial<EditableProps>) => void;
 }
 
-const usePageStore = create<PageState>((set) => ({
+async function fetchPage(id: number): Promise<IElement[]> {
+  const data = await localforage.getItem<IElement[]>(`page.${id}`);
+
+  return data ?? pages.find((page) => page.id === id)?.elements ?? [];
+}
+
+function updatePage(id: number, page: IElement[]) {
+  localforage.setItem(`page.${id}`, page);
+}
+
+const initialState = {
+  id: null,
+  page: [],
   stage: null,
-  setStage: (stage) =>
+  activeElementPath: null,
+  activeElement: null,
+};
+
+const usePageStore = create<PageState>((set, get) => ({
+  ...initialState,
+  fetchPage: async (id: number) => {
+    set(
+      produce((state) => {
+        state.id = initialState.id;
+        state.page = initialState.page;
+        state.stage = initialState.stage;
+        state.activeElementPath = initialState.activeElementPath;
+        state.activeElement = initialState.activeElement;
+      }),
+    );
+
+    const page = await fetchPage(id);
+
+    set(
+      produce((state) => {
+        state.id = id;
+        state.page = page;
+      }),
+    );
+  },
+  setStage: (stage: Container) =>
     set(
       produce((state) => {
         state.stage = stage;
       }),
     ),
-  page: [
-    {
-      type: ElementType.Frame,
-      id: "0",
-      name: "Frame 1",
-      x: 200,
-      y: 200,
-      width: 300,
-      height: 200,
-      alpha: 1,
-      fill: {
-        color: "lightblue",
-      },
-      children: [
-        {
-          type: ElementType.Rectangle,
-          id: "1",
-          name: "Rectangle 1",
-          x: 50,
-          y: 50,
-          width: 100,
-          height: 100,
-          alpha: 1,
-          fill: {
-            color: "red",
-            alpha: 0.2,
-          },
-        },
-        {
-          type: ElementType.Text,
-          id: "4",
-          name: "Text 1",
-          x: 5,
-          y: 5,
-          alpha: 1,
-          text: "Text 1",
-          style: {
-            fontSize: 24,
-          },
-        },
-      ],
-    },
-    {
-      type: ElementType.Rectangle,
-      id: "2",
-      name: "Rectangle 2",
-      x: 200,
-      y: 50,
-      width: 100,
-      height: 100,
-      alpha: 0.5,
-      fill: {
-        color: "red",
-      },
-      stroke: {
-        color: "black",
-        width: 5,
-      },
-    },
-    {
-      type: ElementType.Rectangle,
-      id: "3",
-      name: "Rectangle 3",
-      x: 400,
-      y: 50,
-      width: 100,
-      height: 100,
-      alpha: 1,
-      fill: {
-        color: "red",
-      },
-    },
-    {
-      type: ElementType.Rectangle,
-      id: "4",
-      name: "Rectangle 4",
-      x: 600,
-      y: 50,
-      width: 100,
-      height: 100,
-      alpha: 1,
-      stroke: {
-        alignment: 0,
-        color: "black",
-        width: 5,
-      },
-    },
-  ],
-  activeElementPath: null,
   setActiveElementPath: (path) => {
     set(
       produce((state) => {
@@ -129,7 +82,6 @@ const usePageStore = create<PageState>((set) => ({
       }),
     );
   },
-  activeElement: null,
   setActiveElement: (element) => {
     set(
       produce((state) => {
@@ -209,6 +161,9 @@ const usePageStore = create<PageState>((set) => ({
         }
       }),
     );
+
+    const { id, page } = get();
+    updatePage(id as number, page);
   },
 }));
 

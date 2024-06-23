@@ -1,16 +1,17 @@
 import usePagesStore from "@/hooks/usePagesStore";
-import { usePathname } from "next/navigation";
+import type { FC } from "react";
 import { useRef, useState } from "react";
 import NameInput from "./NameInput";
 import useFetchPages from "./hooks/useFetchPages";
 import { Link, PagesWrapper, Title } from "./index.style";
 
-const Pages = () => {
+interface PagesProps {
+  currentPageId: number;
+}
+
+const Pages: FC<PagesProps> = ({ currentPageId }) => {
   useFetchPages();
   const pages = usePagesStore((state) => state.pages);
-
-  const pathname = usePathname();
-  const currentPageId = Number(pathname.replace("/", ""));
 
   const clickTimeout = useRef<NodeJS.Timeout | null>(null);
 

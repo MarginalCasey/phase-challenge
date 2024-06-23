@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import styled from "styled-components";
 import Elements from "./Elements";
 import Pages from "./Pages";
@@ -10,10 +11,13 @@ const SideNavWrapper = styled.div`
 `;
 
 const SideNav = () => {
+  const pathname = usePathname();
+  const currentPageId = Number(pathname.replace("/", ""));
+
   return (
     <SideNavWrapper>
-      <Pages />
-      <Elements />
+      <Pages currentPageId={currentPageId} />
+      <Elements currentPageId={currentPageId} />
     </SideNavWrapper>
   );
 };

@@ -96,6 +96,21 @@ export const pages: IPage[] = [
   {
     id: 2,
     name: "Page 2",
-    elements: [],
+    elements: [
+      {
+        type: ElementType.Rectangle,
+        id: "1",
+        name: "Rectangle 1",
+        x: 50,
+        y: 50,
+        width: 100,
+        height: 100,
+        alpha: 1,
+        fill: {
+          color: "red",
+          alpha: 0.2,
+        },
+      },
+    ],
   },
 ];
