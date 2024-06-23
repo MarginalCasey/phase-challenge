@@ -5,9 +5,8 @@ import Elements from "./Elements";
 import Pages from "./Pages";
 
 const SideNavWrapper = styled.div`
-  padding: 8px;
-  background: #232323;
-  color: white;
+  background-color: white;
+  border-right: 1px solid #e6e6e6;
 `;
 
 const SideNav = () => {

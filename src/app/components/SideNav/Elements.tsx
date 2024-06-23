@@ -3,7 +3,7 @@ import type { IElement } from "@/types";
 import styled from "styled-components";
 
 const Link = styled.div<{ $active: boolean }>`
-  color: ${(props) => (props.$active ? "red" : "white")};
+  color: ${(props) => (props.$active ? "red" : "black")};
   cursor: pointer;
 `;
 

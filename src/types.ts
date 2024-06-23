@@ -1,3 +1,9 @@
+export interface IPage {
+  id: number;
+  name: string;
+  elements: IElement[];
+}
+
 export enum ElementType {
   Frame = "frame",
   Text = "text",
