@@ -2,11 +2,11 @@ import usePageStore from "@/hooks/usePageStore";
 import type { IElement } from "@/types";
 import { ElementType } from "@/types";
 import type { FC } from "react";
-import { useRef, useState } from "react";
 import FrameIcon from "../../../../icons/FrameIcon";
 import RectangleIcon from "../../../../icons/RectangleIcon";
 import TextIcon from "../../../../icons/TextIcon";
 import NameInput from "../components/NameInput";
+import useUpdateName from "./hooks/useEditableName";
 import useFetchPage from "./hooks/useFetchPage";
 import { ElementName, IconWrapper, Link } from "./index.style";
 
@@ -24,36 +24,20 @@ const Elements: FC<ElementsProps> = ({ currentPageId }) => {
     (state) => state.setActiveElementPath,
   );
 
-  const clickTimeout = useRef<NodeJS.Timeout | null>(null);
+  const { clickTimeoutRef, editingPageId, showNameInput, hideNameInput } =
+    useUpdateName();
 
   function handleClick(path: string) {
     return () => {
-      if (clickTimeout.current) {
-        clearTimeout(clickTimeout.current);
-        clickTimeout.current = null;
+      if (clickTimeoutRef.current) {
+        clearTimeout(clickTimeoutRef.current);
+        clickTimeoutRef.current = null;
       }
 
-      clickTimeout.current = setTimeout(() => {
+      clickTimeoutRef.current = setTimeout(() => {
         setActiveElementPath(path);
       }, 300);
     };
-  }
-
-  const [editingPageId, setEditingPageId] = useState<string | null>(null);
-
-  function showNameInput(id: string) {
-    return () => {
-      if (clickTimeout.current) {
-        clearTimeout(clickTimeout.current);
-        clickTimeout.current = null;
-      }
-
-      setEditingPageId(id);
-    };
-  }
-
-  function hideNameInput() {
-    setEditingPageId(null);
   }
 
   function renderElement(element: IElement, parentPath: string, level: number) {
