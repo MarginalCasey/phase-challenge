@@ -30,6 +30,7 @@ export const Link = styled.div<LinkProps>`
 `;
 
 export const Input = styled.input`
+  min-width: 0;
   height: 32px;
   margin: 0 8px;
   padding: 0 8px;
