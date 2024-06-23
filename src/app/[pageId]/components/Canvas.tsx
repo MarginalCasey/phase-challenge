@@ -1,3 +1,5 @@
+"use client";
+
 import usePageStore from "@/hooks/usePageStore";
 import { Application } from "pixi.js";
 import { useEffect, useRef } from "react";

@@ -1,3 +1,5 @@
+"use client";
+
 import usePageStore from "@/hooks/usePageStore";
 import { ElementType } from "@/types";
 import BlockProperties from "./BlockProperties";
