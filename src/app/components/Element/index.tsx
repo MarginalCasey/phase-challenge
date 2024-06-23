@@ -22,6 +22,7 @@ const Element: FC<IElement & ElementProps> = (props) => {
   const {
     x,
     y,
+    alpha,
     parent,
     path,
     outline = true,
@@ -68,8 +69,9 @@ const Element: FC<IElement & ElementProps> = (props) => {
   useEffect(() => {
     if (container) {
       container.position.set(x, y);
+      container.alpha = alpha;
     }
-  }, [container, x, y]);
+  }, [container, x, y, alpha]);
 
   useEffect(() => {
     if (container && isSelected) {

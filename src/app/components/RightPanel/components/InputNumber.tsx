@@ -5,9 +5,17 @@ interface InputNumberProps {
   value: number;
   onChange: (value: number) => void;
   disabled?: boolean;
+  min?: number;
+  max?: number;
 }
 
-const InputNumber: FC<InputNumberProps> = ({ value, onChange, disabled }) => {
+const InputNumber: FC<InputNumberProps> = ({
+  value,
+  onChange,
+  disabled,
+  min,
+  max,
+}) => {
   const [state, setState] = useState<string>(value.toString());
 
   useEffect(() => {
@@ -20,6 +28,9 @@ const InputNumber: FC<InputNumberProps> = ({ value, onChange, disabled }) => {
     const value = Number(event.target.value);
 
     if (isNaN(value)) return;
+    if (min !== undefined && value < min) return;
+    if (max !== undefined && value > max) return;
+
     onChange(value);
   }
 
@@ -28,6 +39,14 @@ const InputNumber: FC<InputNumberProps> = ({ value, onChange, disabled }) => {
 
     if (isNaN(currentState)) {
       setState(value.toString());
+    }
+    if (min !== undefined && currentState < min) {
+      setState(min.toString());
+      onChange(min);
+    }
+    if (max !== undefined && currentState > max) {
+      setState(max.toString());
+      onChange(max);
     }
   }
 

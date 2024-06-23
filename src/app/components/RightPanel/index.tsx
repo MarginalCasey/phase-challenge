@@ -1,7 +1,7 @@
 import usePageStore from "../../hooks/usePageStore";
 import InputNumber from "./components/InputNumber";
 import useActiveElement from "./hooks/useActiveElement";
-import { Label, RightPanelWrapper, Section } from "./index.style";
+import { Label, RightPanelWrapper, Section, Title } from "./index.style";
 
 const RightPanel = () => {
   const element = useActiveElement();
@@ -31,6 +31,12 @@ const RightPanel = () => {
         setElement(activeElementPath, { [property]: value });
       }
     };
+  }
+
+  function handleOpacityChange(value: number) {
+    if (activeElementPath) {
+      setElement(activeElementPath, { alpha: value / 100 });
+    }
   }
 
   return (
@@ -68,6 +74,20 @@ const RightPanel = () => {
                 disabled={!("height" in element)}
               />
             </Label>
+          </Section>
+          <Section>
+            <Title>Opacity</Title>
+            <div>
+              <Label>
+                <InputNumber
+                  value={element.alpha * 100}
+                  onChange={handleOpacityChange}
+                  min={0}
+                  max={100}
+                />
+                <span>%</span>
+              </Label>
+            </div>
           </Section>
         </>
       )}

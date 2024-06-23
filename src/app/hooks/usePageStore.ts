@@ -8,6 +8,7 @@ interface EditableProps {
   y: number;
   width: number;
   height: number;
+  alpha: number;
 }
 
 interface PageState {
@@ -75,7 +76,7 @@ const usePageStore = create<PageState>((set) => ({
       y: 50,
       width: 100,
       height: 100,
-      alpha: 1,
+      alpha: 0.5,
       fill: {
         color: "0xde3249",
       },
@@ -120,7 +121,7 @@ const usePageStore = create<PageState>((set) => ({
     );
   },
   setElement: (path: string, properties: Partial<EditableProps>) => {
-    const { x, y, width, height } = properties;
+    const { x, y, alpha, width, height } = properties;
     const idArr = path.split("/");
     idArr.shift();
 
@@ -144,6 +145,7 @@ const usePageStore = create<PageState>((set) => ({
         if (element) {
           if (x !== undefined) element.x = x;
           if (y !== undefined) element.y = y;
+          if (alpha !== undefined) element.alpha = alpha;
           if ("width" in element && width !== undefined) {
             element.width = width;
           }

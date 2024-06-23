@@ -16,6 +16,15 @@ export const Section = styled.section`
   }
 `;
 
+export const Title = styled.div`
+  grid-column-start: span 2;
+  padding-left: 8px;
+  line-height: 24px;
+  font-weight: 600;
+  font-size: 11px;
+  color: rgba(0, 0, 0, 0.898);
+`;
+
 export const Label = styled.label`
   border: 1px solid transparent;
   height: 28px;
@@ -32,14 +41,15 @@ export const Label = styled.label`
     outline: 1px solid #0d99ff;
   }
 
-  > span {
+  span {
     width: 32px;
     text-align: center;
     color: rgba(0, 0, 0, 0.5);
   }
 
-  > input {
+  input {
     flex: 1 0 0%;
+    padding-left: 8px;
     border: none;
     min-width: 0;
     height: 100%;
@@ -50,5 +60,9 @@ export const Label = styled.label`
       color: #0000004d;
       background-color: transparent;
     }
+  }
+
+  span + input {
+    padding-left: 0;
   }
 `;
