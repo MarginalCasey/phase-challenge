@@ -3,11 +3,11 @@ import type { IElement } from "@/types";
 import { ElementType } from "@/types";
 import type { FC } from "react";
 import { useRef, useState } from "react";
+import FrameIcon from "../../../../icons/FrameIcon";
+import RectangleIcon from "../../../../icons/RectangleIcon";
+import TextIcon from "../../../../icons/TextIcon";
 import NameInput from "../components/NameInput";
 import useFetchPage from "./hooks/useFetchPage";
-import FrameIcon from "./icons/FrameIcon";
-import RectangleIcon from "./icons/RectangleIcon";
-import TextIcon from "./icons/TextIcon";
 import { ElementName, IconWrapper, Link } from "./index.style";
 
 interface ElementsProps {
