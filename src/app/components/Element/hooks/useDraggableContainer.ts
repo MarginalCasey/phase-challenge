@@ -44,7 +44,6 @@ const useDraggableContainer = ({
         const { x, y } = event.getLocalPosition(container);
 
         dragTargetRef.current = container;
-        dragTargetRef.current.alpha = 0.5;
         offsetRef.current = { x, y };
 
         if (stage) {
@@ -61,7 +60,6 @@ const useDraggableContainer = ({
         stage.off("pointermove", onDragMove);
       }
 
-      dragTargetRef.current.alpha = 1;
       dragTargetRef.current = null;
       offsetRef.current = { x: 0, y: 0 };
     }
