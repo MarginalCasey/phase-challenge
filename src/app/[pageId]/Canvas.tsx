@@ -5,8 +5,8 @@ import useToolbarStore, { Tool } from "@/hooks/useToolbarStore";
 import { Application } from "pixi.js";
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
-import Element from "./Element";
-import useAddElement from "./Element/hooks/useAddElement";
+import Element from "./components/Element";
+import useAddElement from "./components/Element/hooks/useAddElement";
 
 const CanvasWrapper = styled.div<{ $addElement: boolean }>`
   cursor: ${(props) => (props.$addElement ? "crosshair" : "default")};
