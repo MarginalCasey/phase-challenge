@@ -3,6 +3,7 @@ import type { IRectangle } from "@/types";
 import { Graphics } from "pixi.js";
 import type { Dispatch, FC, SetStateAction } from "react";
 import { useEffect } from "react";
+import useAddElement from "./hooks/useAddElement";
 import type { ElementProps } from "./types";
 
 interface RectangleProps extends Omit<IRectangle, "type">, ElementProps {
@@ -12,6 +13,7 @@ interface RectangleProps extends Omit<IRectangle, "type">, ElementProps {
 
 const Rectangle: FC<RectangleProps> = ({
   parent,
+  path,
   x,
   y,
   width,
@@ -19,7 +21,9 @@ const Rectangle: FC<RectangleProps> = ({
   alpha,
   fill,
   stroke,
+  container,
   setContainer,
+  enableAddElementOnClick,
 }) => {
   useEffect(() => {
     if (parent) {
@@ -45,6 +49,8 @@ const Rectangle: FC<RectangleProps> = ({
       };
     }
   }, [parent, width, height, fill, stroke]);
+
+  useAddElement({ container, path, disabled: !enableAddElementOnClick });
 
   return null;
 };

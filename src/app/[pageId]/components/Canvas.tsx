@@ -1,20 +1,24 @@
 "use client";
 
 import usePageStore from "@/hooks/usePageStore";
+import useToolbarStore, { Tool } from "@/hooks/useToolbarStore";
 import { Application } from "pixi.js";
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import Element from "./Element";
+import useAddElement from "./Element/hooks/useAddElement";
 
-const CanvasWrapper = styled.div`
-  position: relative;
-  overflow: hidden;
+const CanvasWrapper = styled.div<{ $addElement: boolean }>`
+  cursor: ${(props) => (props.$addElement ? "crosshair" : "default")};
 `;
 
 const Canvas = () => {
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const stage = usePageStore((state) => state.stage);
   const setStage = usePageStore((state) => state.setStage);
   const page = usePageStore((state) => state.page);
+
+  const currentTool = useToolbarStore((state) => state.currentTool);
 
   useEffect(() => {
     const app = new Application();
@@ -40,8 +44,10 @@ const Canvas = () => {
     }
   }, [setStage]);
 
+  useAddElement({ container: stage, path: null });
+
   return (
-    <CanvasWrapper ref={wrapperRef}>
+    <CanvasWrapper ref={wrapperRef} $addElement={currentTool !== Tool.Select}>
       {page.map((element) => (
         <Element key={element.id} path={`/${element.id}`} {...element} />
       ))}

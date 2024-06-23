@@ -113,6 +113,7 @@ const Frame: FC<FrameProps> = ({
             }
           }
           stroke={stroke}
+          enableAddElementOnClick
         />
         {children.map((child) => {
           return (

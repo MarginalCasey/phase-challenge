@@ -7,4 +7,5 @@ export interface ElementProps {
   selectable?: boolean;
   draggable?: boolean;
   dragHandlePosition?: { x: number; y: number };
+  enableAddElementOnClick?: boolean;
 }
