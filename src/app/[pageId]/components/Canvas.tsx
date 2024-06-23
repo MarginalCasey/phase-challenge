@@ -8,7 +8,6 @@ import Element from "./Element";
 
 const CanvasWrapper = styled.div`
   position: relative;
-  background: white;
   overflow: hidden;
 `;
 
