@@ -24,6 +24,7 @@ interface PageState {
   activeElement: Container | null;
   fetchPage: (id: number) => void;
   addElement: (parentPath: string | null, element: IElement) => void;
+  deleteElement: (path: string) => void;
   updateElementName: (path: string, name: string) => void;
   setStage: (stage: Container) => void;
   setActiveElementPath: (path: string | null) => void;
@@ -103,6 +104,31 @@ const usePageStore = create<PageState>((set, get) => ({
 
           if (parent && "children" in parent) {
             parent.children.push(element);
+          }
+        }
+      }),
+    );
+
+    const { id, page } = get();
+    updatePage(id as number, page);
+  },
+  deleteElement: (path) => {
+    const parentPath = path.split("/").slice(0, -1).join("/");
+
+    set(
+      produce<PageState>((state) => {
+        const element = getElement(state.page, path);
+
+        if (element === null) return;
+        if (parentPath === "") {
+          state.page = state.page.filter((child) => child.id !== element.id);
+        } else {
+          const parent = getElement(state.page, parentPath);
+
+          if (parent && "children" in parent) {
+            parent.children = parent.children.filter(
+              (child) => child.id !== element.id,
+            );
           }
         }
       }),

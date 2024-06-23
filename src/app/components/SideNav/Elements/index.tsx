@@ -6,6 +6,7 @@ import FrameIcon from "../../../../icons/FrameIcon";
 import RectangleIcon from "../../../../icons/RectangleIcon";
 import TextIcon from "../../../../icons/TextIcon";
 import NameInput from "../components/NameInput";
+import useDeleteActiveElement from "./hooks/useDeleteActiveElement";
 import useUpdateName from "./hooks/useEditableName";
 import useFetchPage from "./hooks/useFetchPage";
 import { ElementName, IconWrapper, Link } from "./index.style";
@@ -26,6 +27,8 @@ const Elements: FC<ElementsProps> = ({ currentPageId }) => {
 
   const { clickTimeoutRef, editingPageId, showNameInput, hideNameInput } =
     useUpdateName();
+
+  useDeleteActiveElement();
 
   function handleClick(path: string) {
     return () => {
