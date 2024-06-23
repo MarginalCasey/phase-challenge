@@ -42,13 +42,17 @@ export const FormItem = styled.label`
     outline: 1px solid #0d99ff;
   }
 
-  > input {
+  > input,
+  select {
     flex: 1 0 0%;
-    border: none;
     min-width: 0;
     height: 100%;
-    color: rgba(0, 0, 0, 0.898);
     outline: none;
+  }
+
+  > input {
+    border: none;
+    color: rgba(0, 0, 0, 0.898);
 
     &:disabled {
       color: #0000004d;

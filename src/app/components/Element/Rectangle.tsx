@@ -1,8 +1,8 @@
 import { Graphics } from "pixi.js";
 import type { Dispatch, FC, SetStateAction } from "react";
 import { useEffect } from "react";
+import { DEFAULT_FILL, DEFAULT_STROKE } from "../../constants";
 import type { IRectangle } from "../../types";
-import { StrokeAlignment } from "../../types";
 import type { ElementProps } from "./types";
 
 interface RectangleProps extends Omit<IRectangle, "type">, ElementProps {
@@ -28,15 +28,14 @@ const Rectangle: FC<RectangleProps> = ({
       graphics.alpha = alpha;
 
       graphics.rect(0, 0, width, height);
-      if (fill) {
-        graphics.fill(fill);
-      }
-      if (stroke) {
-        graphics.stroke({
-          alignment: StrokeAlignment.Inner,
-          ...stroke,
-        });
-      }
+      graphics.fill({
+        ...DEFAULT_FILL,
+        ...fill,
+      });
+      graphics.stroke({
+        ...DEFAULT_STROKE,
+        ...stroke,
+      });
 
       parent.addChild(graphics);
       setContainer(graphics);
@@ -45,7 +44,7 @@ const Rectangle: FC<RectangleProps> = ({
         parent.removeChild(graphics);
       };
     }
-  }, [parent, width, height]);
+  }, [parent, width, height, fill, stroke]);
 
   return null;
 };

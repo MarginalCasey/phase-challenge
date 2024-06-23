@@ -1,5 +1,5 @@
 import type { ChangeEvent, FC } from "react";
-import { defaultColor } from "../../../../constants";
+import { DEFAULT_COLOR } from "../../../../constants";
 import {
   ColorCode,
   ColorInput,
@@ -13,7 +13,7 @@ interface ColorPickerProps {
 }
 
 const ColorPicker: FC<ColorPickerProps> = ({
-  value = defaultColor,
+  value = DEFAULT_COLOR,
   onChange,
 }) => {
   function handleChange(e: ChangeEvent<HTMLInputElement>) {

@@ -1,7 +1,8 @@
 import { produce } from "immer";
 import type { Container } from "pixi.js";
 import { create } from "zustand";
-import { ElementType, IElement } from "../types";
+import { DEFAULT_FILL, DEFAULT_STROKE } from "../constants";
+import { ElementType, IElement, IStroke, Ifill } from "../types";
 
 interface EditableProps {
   x: number;
@@ -9,6 +10,8 @@ interface EditableProps {
   width: number;
   height: number;
   alpha: number;
+  fill: Partial<Ifill>;
+  stroke: Partial<IStroke>;
 }
 
 interface PageState {
@@ -40,6 +43,9 @@ const usePageStore = create<PageState>((set) => ({
       width: 300,
       height: 200,
       alpha: 1,
+      fill: {
+        color: "lightblue",
+      },
       children: [
         {
           type: ElementType.Rectangle,
@@ -51,7 +57,8 @@ const usePageStore = create<PageState>((set) => ({
           height: 100,
           alpha: 1,
           fill: {
-            color: "0xde3249",
+            color: "red",
+            alpha: 0.2,
           },
         },
         {
@@ -78,10 +85,10 @@ const usePageStore = create<PageState>((set) => ({
       height: 100,
       alpha: 0.5,
       fill: {
-        color: "0xde3249",
+        color: "red",
       },
       stroke: {
-        color: "0x650a5a",
+        color: "black",
         width: 5,
       },
     },
@@ -95,11 +102,21 @@ const usePageStore = create<PageState>((set) => ({
       height: 100,
       alpha: 1,
       fill: {
-        color: "0xde3249",
+        color: "red",
       },
+    },
+    {
+      type: ElementType.Rectangle,
+      id: "4",
+      name: "Rectangle 4",
+      x: 600,
+      y: 50,
+      width: 100,
+      height: 100,
+      alpha: 1,
       stroke: {
         alignment: 0,
-        color: "0x650a5a",
+        color: "black",
         width: 5,
       },
     },
@@ -121,7 +138,7 @@ const usePageStore = create<PageState>((set) => ({
     );
   },
   setElement: (path: string, properties: Partial<EditableProps>) => {
-    const { x, y, alpha, width, height } = properties;
+    const { x, y, alpha, width, height, fill, stroke } = properties;
     const idArr = path.split("/");
     idArr.shift();
 
@@ -146,11 +163,48 @@ const usePageStore = create<PageState>((set) => ({
           if (x !== undefined) element.x = x;
           if (y !== undefined) element.y = y;
           if (alpha !== undefined) element.alpha = alpha;
-          if ("width" in element && width !== undefined) {
-            element.width = width;
-          }
-          if ("height" in element && height !== undefined) {
-            element.height = height;
+
+          if (
+            element.type === ElementType.Frame ||
+            element.type === ElementType.Rectangle
+          ) {
+            if (width !== undefined) {
+              element.width = width;
+            }
+            if (height !== undefined) {
+              element.height = height;
+            }
+            if (fill !== undefined) {
+              element.fill = {
+                ...DEFAULT_FILL,
+                ...element.fill,
+              };
+              if (fill.color !== undefined) {
+                element.fill.color = fill.color;
+              }
+              if (fill.alpha !== undefined) {
+                element.fill.alpha = fill.alpha;
+              }
+            }
+            if (stroke !== undefined) {
+              element.stroke = {
+                ...DEFAULT_STROKE,
+                ...element.stroke,
+              };
+
+              if (stroke.color !== undefined) {
+                element.stroke.color = stroke.color;
+              }
+              if (stroke.alpha !== undefined) {
+                element.stroke.alpha = stroke.alpha;
+              }
+              if (stroke.width !== undefined) {
+                element.stroke.width = stroke.width;
+              }
+              if (stroke.alignment !== undefined) {
+                element.stroke.alignment = stroke.alignment;
+              }
+            }
           }
         }
       }),

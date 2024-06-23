@@ -4,7 +4,7 @@ export enum ElementType {
   Rectangle = "rectangle",
 }
 
-interface Ifill {
+export interface Ifill {
   color?: string;
   alpha?: number;
 }
@@ -60,4 +60,6 @@ export interface IFrame extends IBlockElementCommonProps {
   children: IElement[];
 }
 
-export type IElement = IFrame | IText | IGraphic;
+export type IBLockElement = IFrame | IGraphic;
+
+export type IElement = IBLockElement | IText;
