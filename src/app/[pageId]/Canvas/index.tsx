@@ -5,8 +5,9 @@ import useToolbarStore, { Tool } from "@/hooks/useToolbarStore";
 import { Application } from "pixi.js";
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
-import Element from "./components/Element";
-import useAddElement from "./components/Element/hooks/useAddElement";
+import Element from "../components/Element";
+import useAddElement from "../components/Element/hooks/useAddElement";
+import useResetActiveElement from "./hooks/useResetActiveElement";
 
 const CanvasWrapper = styled.div<{ $addElement: boolean }>`
   cursor: ${(props) => (props.$addElement ? "crosshair" : "default")};
@@ -17,9 +18,6 @@ const Canvas = () => {
   const stage = usePageStore((state) => state.stage);
   const setStage = usePageStore((state) => state.setStage);
   const page = usePageStore((state) => state.page);
-  const setActiveElementPath = usePageStore(
-    (state) => state.setActiveElementPath,
-  );
 
   const currentTool = useToolbarStore((state) => state.currentTool);
 
@@ -48,20 +46,7 @@ const Canvas = () => {
   }, [setStage]);
 
   useAddElement({ container: stage, path: null });
-
-  useEffect(() => {
-    function resetActiveElement() {
-      setActiveElementPath(null);
-    }
-
-    if (stage && currentTool === Tool.Select) {
-      stage.on("pointerdown", resetActiveElement);
-
-      return () => {
-        stage.off("pointerdown", resetActiveElement);
-      };
-    }
-  }, [stage, currentTool, setActiveElementPath]);
+  useResetActiveElement();
 
   return (
     <CanvasWrapper ref={wrapperRef} $addElement={currentTool !== Tool.Select}>
