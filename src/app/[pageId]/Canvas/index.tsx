@@ -3,17 +3,20 @@
 import usePageStore from "@/hooks/usePageStore";
 import useToolbarStore, { Tool } from "@/hooks/useToolbarStore";
 import { Application } from "pixi.js";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import Element from "../components/Element";
 import useAddElement from "../components/Element/hooks/useAddElement";
 import useResetActiveElement from "./hooks/useResetActiveElement";
+import useScale from "./hooks/useScale";
 
 const CanvasWrapper = styled.div<{ $addElement: boolean }>`
   cursor: ${(props) => (props.$addElement ? "crosshair" : "default")};
 `;
 
 const Canvas = () => {
+  const [app, setApp] = useState<Application | null>(null);
+
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stage = usePageStore((state) => state.stage);
   const setStage = usePageStore((state) => state.setStage);
@@ -32,7 +35,9 @@ const Canvas = () => {
       });
       wrapper.appendChild(app.canvas);
       app.stage.hitArea = app.screen;
+
       setStage(app.stage);
+      setApp(app);
     }
 
     if (wrapperRef.current) {
@@ -47,6 +52,7 @@ const Canvas = () => {
 
   useAddElement({ container: stage, path: null });
   useResetActiveElement();
+  useScale(app);
 
   return (
     <CanvasWrapper ref={wrapperRef} $addElement={currentTool !== Tool.Select}>
