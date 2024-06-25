@@ -9,6 +9,7 @@ import Element from "../components/Element";
 import useAddElement from "../components/Element/hooks/useAddElement";
 import useResetActiveElement from "./hooks/useResetActiveElement";
 import useScale from "./hooks/useScale";
+import useTranslate from "./hooks/useTranslate";
 
 const CanvasWrapper = styled.div<{ $addElement: boolean }>`
   cursor: ${(props) => (props.$addElement ? "crosshair" : "default")};
@@ -53,6 +54,7 @@ const Canvas = () => {
   useAddElement({ container: stage, path: null });
   useResetActiveElement();
   useScale(app);
+  useTranslate(app);
 
   return (
     <CanvasWrapper ref={wrapperRef} $addElement={currentTool !== Tool.Select}>
