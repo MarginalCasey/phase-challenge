@@ -30,6 +30,7 @@ const Header = () => {
         <SelectIcon />
       </Button>
       <Button
+        data-testid="add-frame"
         $active={currentTool === ElementType.Frame}
         onClick={handleSelectTool(ElementType.Frame)}
       >
