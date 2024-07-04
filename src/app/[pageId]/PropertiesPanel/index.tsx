@@ -12,7 +12,7 @@ const PropertiesPanel = () => {
   const renderedElement = usePageStore((state) => state.activeElement);
 
   return (
-    <PanelWrapper data-testid={`element-${element?.id}-properties`}>
+    <PanelWrapper data-testid="element-properties" data-id={element?.id}>
       {element && renderedElement && (
         <>
           <CommonProperties element={element} />
