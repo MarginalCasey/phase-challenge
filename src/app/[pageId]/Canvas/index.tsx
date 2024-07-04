@@ -33,6 +33,7 @@ const Canvas = () => {
         resizeTo: wrapper,
         backgroundColor: "#f2f2f2",
         eventMode: "static",
+        preserveDrawingBuffer: true,
       });
       wrapper.appendChild(app.canvas);
       app.stage.hitArea = app.screen;
