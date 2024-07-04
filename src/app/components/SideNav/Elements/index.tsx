@@ -72,9 +72,11 @@ const Elements: FC<ElementsProps> = ({ currentPageId }) => {
               <ElementName>{element.name}</ElementName>
             )}
           </Link>
-          {element.children
-            .toReversed()
-            .map((child) => renderElement(child, path, level + 1))}
+          <div data-testid={`element-${element.id}-element-list`}>
+            {element.children
+              .toReversed()
+              .map((child) => renderElement(child, path, level + 1))}
+          </div>
         </div>
       );
     }
@@ -107,7 +109,7 @@ const Elements: FC<ElementsProps> = ({ currentPageId }) => {
   }
 
   return (
-    <div>
+    <div data-testid="page-element-list">
       {page.toReversed().map((element) => renderElement(element, "", 1))}
     </div>
   );
